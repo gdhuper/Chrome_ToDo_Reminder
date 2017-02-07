@@ -1,9 +1,16 @@
 
-
 var d = document,
 createTask = d.getElementById('createTask');
+calIcon = d.getElementById('calIcon');
 
-
+calIcon.addEventListener('click', popCal);
+function popCal()
+{
+	console.log("picking time");
+     $('#dueDateTime').datetimepicker({
+    format: 'YYYY/MM/DD hh:mm A'
+  });
+}
 
 createTask.addEventListener('click', createNewTab);
 	
