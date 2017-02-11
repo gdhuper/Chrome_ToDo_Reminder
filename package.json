@@ -1,0 +1,31 @@
+{
+  "name": "todo_reminder_extension",
+  "version": "1.0.0",
+  "description": "To-do reminder extension for chrome that notifies and open specific web page when a task is due ",
+  "main": "manifest.json",
+  "dependencies": {
+    "datastructures-js": "^3.0.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gdhuper/Chrome_bookmark_Ext.git"
+  },
+  "keywords": [
+    "chrome",
+    "extension",
+    "to-do",
+    "reminder",
+    "alarm",
+    "notification"
+  ],
+  "author": "Gurpreet Singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gdhuper/Chrome_bookmark_Ext/issues"
+  },
+  "homepage": "https://github.com/gdhuper/Chrome_bookmark_Ext#readme"
+}
