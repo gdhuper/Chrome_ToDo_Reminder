@@ -9,31 +9,44 @@ var popup = function(){
 		idxHeading: $('#topTitle'),
 		createTask: $('#createTask'),
 		front: $('#frontPanel'),
+		taskList: $('#taskList'),
 		addTask: $('#addTask'),
 	};
 
+	/*add task variables*/
 	var addTaskPage = {
 		taskName: $('#inputTaskName'),
 		inputDueTime: $('#inputDueTime'),
 		url: $('#basic-url'),
 		taskNotes: $('#taskNotes'),
-		priority: $('dropdown-menu'),
+		priority: $('#dropdown-menu'),
 		notify: $('#notifyCheckBox'),
 		notifyUrl: $('#notifyUrlCheckBox'),
+		saveButtton: $('#saveTask'),
+		calIcon: $('#calIcon')
 
 	};
 
-//cancel.addEventListener('click', cancelSaving);
-calIcon.addEventListener('click', popCal);
+var cancelButton = document.getElementById('cancelSave');
+
+
+
+
+//
 createTask.addEventListener('click', addTaskToList);
+calIcon.addEventListener('click', popCal);
+cancelButton.addEventListener('click', cancelSaving);
+
 
 function cancelSaving()
 {
 	console.log("callign cancelSaving")
-	$('#frontPanel').remove('hidden');
-	$('#topTitle').remove('hidden');
 
-	$('#addTask').addClass('hidden');
+	$('#frontPanel').removeClass('hidden');
+	$('#topTitle').removeClass('hidden');
+		$('#addTask').addClass('hidden');
+
+
 
 
 }
@@ -45,8 +58,7 @@ function addTaskToList()
 	$('#topTitle').addClass('hidden');
 
 	$('#addTask').removeClass('hidden');
-
-
+	
 }
 
 
@@ -115,5 +127,4 @@ function addTaskToList()
 }
 
 
-var pop =  new popup();
-pop();
+popup();
