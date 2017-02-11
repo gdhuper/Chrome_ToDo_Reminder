@@ -8,13 +8,20 @@ var popup = function(){
 	var index = {
 		idxHeading: $('#topTitle'),
 		createTask: $('#createTask'),
-		addTask: $('#addTask'),
 		front: $('#frontPanel'),
-		cancel: $('#cancelSave'),
-		calIcon: $('#calIcon'),
+		addTask: $('#addTask'),
 	};
 
+	var addTaskPage = {
+		taskName: $('#inputTaskName'),
+		inputDueTime: $('#inputDueTime'),
+		url: $('#basic-url'),
+		taskNotes: $('#taskNotes'),
+		priority: $('dropdown-menu'),
+		notify: $('#notifyCheckBox'),
+		notifyUrl: $('#notifyUrlCheckBox'),
 
+	};
 
 //cancel.addEventListener('click', cancelSaving);
 calIcon.addEventListener('click', popCal);
