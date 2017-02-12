@@ -87,6 +87,11 @@ function addTaskToList(task){
 		$('#taskList').append("<tr id='" + task.tId + "'>" +
 							"<td><a href='#'>" + task.tName + "</a></td>" +
 							"<td>" + task.tDueDate + "</td>" +
+							"<td>" + p + "</td>" +
+							"<td>" +
+								"<a href='#' class='edit'>Edit </a>" +
+								"<a href='#' class='del'>Delete</a>" +
+							"</td>" +
 						"</tr>");
 		id++;
 
