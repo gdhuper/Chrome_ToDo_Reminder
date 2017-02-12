@@ -5,29 +5,25 @@ var popup = function(){
 	//var pQueue = ds.priorityQueue();
 
 	/*Index page variables*/
-	var index = {
-		idxHeading: $('#topTitle'),
-		createTask: $('#createTask'),
-		front: $('#frontPanel'),
-		taskList: $('#taskList'),
-		addTask: $('#addTask'),
-	};
+	var index = document,
+		idxHeading = index.getElementById('topTitle'),
+		createTask = index.getElementById('createTask'),
+		front = index.getElementById('frontPanel'),
+		taskList = index.getElementById('taskList'),
+		addTask = index.getElementById('addTask');
 
 	/*add task variables*/
-	var addTaskPage = {
-		taskName: $('#inputTaskName'),
-		inputDueTime: $('#inputDueTime'),
-		url: $('#basic-url'),
-		taskNotes: $('#taskNotes'),
-		priority: $('#dropdown-menu'),
-		notify: $('#notifyCheckBox'),
-		notifyUrl: $('#notifyUrlCheckBox'),
-		saveButtton: $('#saveTask'),
-		calIcon: $('#calIcon')
-
-	};
-
-var cancelButton = document.getElementById('cancelSave');
+	var addTaskPage = 
+		taskName = index.getElementById('inputTaskName'),
+		inputDueTime = index.getElementById('inputDueTime'),
+		url = index.getElementById('basic-url'),
+		taskNotes = index.getElementById('taskNotes'),
+		priority = index.getElementById('dropdown-menu'),
+		notify = index.getElementById('notifyCheckBox'),
+		notifyUrl = index.getElementById('notifyUrlCheckBox'),
+		calIcon = index.getElementById('calIcon'),
+		cancelButton = index.getElementById('cancelSave'),
+		saveButtton = index.getElementById('saveTask');
 
 
 
@@ -36,7 +32,15 @@ var cancelButton = document.getElementById('cancelSave');
 createTask.addEventListener('click', addTaskToList);
 calIcon.addEventListener('click', popCal);
 cancelButton.addEventListener('click', cancelSaving);
+saveButtton.addEventListener('click', saveTask);
 
+
+
+function saveTask()
+{
+	console.log("calling save task");
+	
+}
 
 function cancelSaving()
 {
@@ -44,7 +48,7 @@ function cancelSaving()
 
 	$('#frontPanel').removeClass('hidden');
 	$('#topTitle').removeClass('hidden');
-		$('#addTask').addClass('hidden');
+	$('#addTask').addClass('hidden');
 
 
 
@@ -56,7 +60,6 @@ function addTaskToList()
 	console.log("calling create task");
 	$('#frontPanel').addClass('hidden');
 	$('#topTitle').addClass('hidden');
-
 	$('#addTask').removeClass('hidden');
 	
 }
