@@ -4,8 +4,11 @@ var popup = function(){
 	//var ds = require('datastructures-js');
 	//var pQueue = ds.priorityQueue();
 
+
 	/*Index page variables*/
 	var index = document,
+		tasks = [],
+		id = 0,
 		idxHeading = index.getElementById('topTitle'),
 		createTask = index.getElementById('createTask'),
 		front = index.getElementById('frontPanel'),
@@ -25,11 +28,21 @@ var popup = function(){
 		cancelButton = index.getElementById('cancelSave'),
 		saveButtton = index.getElementById('saveTask');
 
-
+	// task object
+	var task = {
+		tId: 0,
+		tName: "",
+		tDueDate: "",
+		tUrl: "",
+		tNotes: "",
+		tPriority: "None",
+		tNotify: false,
+		tNotifyUrl: false
+	};
 
 
 //
-createTask.addEventListener('click', addTaskToList);
+createTask.addEventListener('click', createNewTask);
 calIcon.addEventListener('click', popCal);
 cancelButton.addEventListener('click', cancelSaving);
 saveButtton.addEventListener('click', saveTask);
@@ -40,8 +53,41 @@ function saveTask()
 {
 	console.log("calling save task");
 	
+	task.tId = id + 1;
+	task.tName = taskName.value;
+	task.tDueDate = inputDueTime.value;
+	task.tUrl = url.value;
+	task.tNotes = taskNotes.value;
+	tPriority = getPValue();
+	tNotify = notify.value;
+	tNotifyUrl = notifyUrl.value;
+
+	addTaskToList(task);
+	cancelSaving();
+
+	
 }
 
+
+function getPValue()
+{
+	$('#dropdownMenu li').on('click', function(){
+    $('#pButton').val($(this).text());
+});
+}
+
+
+function addTaskToList(task){
+		//var lineThrough = task.isRunned ? 'text-decoration: line-through;':'';
+		$('#hiddenTaskList').addClass('hidden');
+		$('#taskList').append("<tr id='" + task.tId + "'>" +
+							"<td><a href='#'>" + task.tName + "</a></td>" +
+							"<td>" + task.tDueDate + "</td>" +
+						"</tr>");
+		id++;
+
+		
+	}
 function cancelSaving()
 {
 	console.log("callign cancelSaving")
@@ -50,12 +96,14 @@ function cancelSaving()
 	$('#topTitle').removeClass('hidden');
 	$('#addTask').addClass('hidden');
 
+	//url.value = "";
+
 
 
 
 }
 
-function addTaskToList()
+function createNewTask()
 {
 	console.log("calling create task");
 	$('#frontPanel').addClass('hidden');
