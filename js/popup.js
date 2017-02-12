@@ -71,9 +71,13 @@ function saveTask()
 
 function getPValue()
 {
-	$('#dropdownMenu li').on('click', function(){
-    $('#pButton').val($(this).text());
+	
+	
+	$('.dropdown-menu').on('click', 'a',  function(){
+    var text = $(this).html();
+    return text;
 });
+	
 }
 
 
@@ -86,7 +90,7 @@ function addTaskToList(task){
 						"</tr>");
 		id++;
 
-		
+		console.log(task.tPriority);
 	}
 function cancelSaving()
 {
@@ -169,6 +173,7 @@ function createNewTask()
 		console.log("changing button text");
 
 		var text = $(this).html();
+		console.log(text);
 		var option = text + ' <span class="caret"></span>';
 		$(this).closest('.btn-group').find('.dropdown-toggle').html(option);
 
