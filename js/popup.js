@@ -3,7 +3,7 @@ var popup = function(){
 
 	//var ds = require('datastructures-js');
 	//var pQueue = ds.priorityQueue();
-
+	var p = null;
 
 	/*Index page variables*/
 	var index = document,
@@ -21,7 +21,7 @@ var popup = function(){
 		inputDueTime = index.getElementById('inputDueTime'),
 		url = index.getElementById('basic-url'),
 		taskNotes = index.getElementById('taskNotes'),
-		priority = index.getElementById('dropdown-menu'),
+		priority = index.getElementById('pButton'),
 		notify = index.getElementById('notifyCheckBox'),
 		notifyUrl = index.getElementById('notifyUrlCheckBox'),
 		calIcon = index.getElementById('calIcon'),
@@ -47,7 +47,18 @@ calIcon.addEventListener('click', popCal);
 cancelButton.addEventListener('click', cancelSaving);
 saveButtton.addEventListener('click', saveTask);
 
+// drop down button text update 
+	$('.dropdown-menu').on('click', 'a', function() {
+		console.log("changing button text");
 
+		var text = $(this).html();
+		console.log(text);
+		p = text;
+		var option = text + ' <span class="caret"></span>';
+		$(this).closest('.btn-group').find('.dropdown-toggle').html(option);
+
+
+	});
 
 function saveTask()
 {
@@ -58,7 +69,7 @@ function saveTask()
 	task.tDueDate = inputDueTime.value;
 	task.tUrl = url.value;
 	task.tNotes = taskNotes.value;
-	tPriority = getPValue();
+	tPriority = p;
 	tNotify = notify.value;
 	tNotifyUrl = notifyUrl.value;
 
@@ -68,17 +79,6 @@ function saveTask()
 	
 }
 
-
-function getPValue()
-{
-	
-	
-	$('.dropdown-menu').on('click', 'a',  function(){
-    var text = $(this).html();
-    return text;
-});
-	
-}
 
 
 function addTaskToList(task){
@@ -90,7 +90,7 @@ function addTaskToList(task){
 						"</tr>");
 		id++;
 
-		console.log(task.tPriority);
+		console.log(p);
 	}
 function cancelSaving()
 {
@@ -168,18 +168,7 @@ function createNewTask()
 
 
 
-	//
-	$('.dropdown-menu').on('click', 'a', function() {
-		console.log("changing button text");
-
-		var text = $(this).html();
-		console.log(text);
-		var option = text + ' <span class="caret"></span>';
-		$(this).closest('.btn-group').find('.dropdown-toggle').html(option);
-
-
-	});
-
+	
 }
 
 
