@@ -35,7 +35,7 @@ var popup = function(){
 		tDueDate: "",
 		tUrl: "",
 		tNotes: "",
-		tPriority: "None",
+		tPriority: p,
 		tNotify: false,
 		tNotifyUrl: false
 	};
@@ -48,7 +48,7 @@ cancelButton.addEventListener('click', cancelSaving);
 saveButtton.addEventListener('click', saveTask);
 
 // drop down button text update 
-	$('.dropdown-menu').on('click', 'a', function() {
+$('.dropdown-menu').on('click', 'a', function() {
 		console.log("changing button text");
 
 		var text = $(this).html();
