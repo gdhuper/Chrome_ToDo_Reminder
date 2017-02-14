@@ -73,16 +73,20 @@ function saveTask()
 	tNotify = notify.value;
 	tNotifyUrl = notifyUrl.value;
 
+	if(validateTask)
+	{
+
 	addTaskToList(task);
+	addTaskToArray(task);
 	cancelSaving();
 
+	}
 	
 }
 
 
 
 function addTaskToList(task){
-		//var lineThrough = task.isRunned ? 'text-decoration: line-through;':'';
 		$('#hiddenTaskList').addClass('hidden');
 		$('#taskList').append("<tr id='" + task.tId + "'>" +
 							"<td><a href='#'>" + task.tName + "</a></td>" +
@@ -97,6 +101,22 @@ function addTaskToList(task){
 
 		console.log(p);
 	}
+
+
+function addTaskToArray(task)
+{
+	for(t in tasks)
+	{	
+		if(task != task){
+	tasks.push(task);
+}
+else
+{
+	alert("Task already exists");
+}
+}
+}
+
 function cancelSaving()
 {
 	console.log("callign cancelSaving")
