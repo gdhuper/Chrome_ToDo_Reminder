@@ -1,199 +1,255 @@
-var popup = function(){
+var popup = function() {
+    "use strict"
+
+    //defining global variables
+    var tId = 0,
+        tName = null,
+        tDueDate = null,
+        tUrl = null,
+        tNotes = null,
+        tPriority = null,
+        tNotify = false,
+        tNotifyUrl = false;
+
+    var p = null; //to save priority from dropdown button
 
 
-	//var ds = require('datastructures-js');
-	//var pQueue = ds.priorityQueue();
-	var p = null;
-
-	/*Index page variables*/
-	var index = document,
-		tasks = [],
-		id = 0,
-		idxHeading = index.getElementById('topTitle'),
-		createTask = index.getElementById('createTask'),
-		front = index.getElementById('frontPanel'),
-		taskList = index.getElementById('taskList'),
-		addTask = index.getElementById('addTask');
-
-	/*add task variables*/
-	var addTaskPage = 
-		taskName = index.getElementById('inputTaskName'),
-		inputDueTime = index.getElementById('inputDueTime'),
-		url = index.getElementById('basic-url'),
-		taskNotes = index.getElementById('taskNotes'),
-		priority = index.getElementById('pButton'),
-		notify = index.getElementById('notifyCheckBox'),
-		notifyUrl = index.getElementById('notifyUrlCheckBox'),
-		calIcon = index.getElementById('calIcon'),
-		cancelButton = index.getElementById('cancelSave'),
-		saveButtton = index.getElementById('saveTask');
-
-	// task object
-	var task = {
-		tId: 0,
-		tName: "",
-		tDueDate: "",
-		tUrl: "",
-		tNotes: "",
-		tPriority: p,
-		tNotify: false,
-		tNotifyUrl: false
-	};
+    //var ds = require('datastructures-js');
+    //var pQueue = ds.priorityQueue();
 
 
-//
-createTask.addEventListener('click', createNewTask);
-calIcon.addEventListener('click', popCal);
-cancelButton.addEventListener('click', cancelSaving);
-saveButtton.addEventListener('click', saveTask);
+    /*Index page variables*/
+    var index = document,
+        tasks = [],
+        id = 0,
+        idxHeading = index.getElementById('topTitle'),
+        createTask = index.getElementById('createTask'),
+        front = index.getElementById('frontPanel'),
+        taskList = index.getElementById('taskList'),
+        addTask = index.getElementById('addTask');
 
-// drop down button text update 
-$('.dropdown-menu').on('click', 'a', function() {
-		console.log("changing button text");
-
-		var text = $(this).html();
-		console.log(text);
-		p = text;
-		var option = text + ' <span class="caret"></span>';
-		$(this).closest('.btn-group').find('.dropdown-toggle').html(option);
-
-
-	});
-
-function saveTask()
-{
-	console.log("calling save task");
-	
-	task.tId = id + 1;
-	task.tName = taskName.value;
-	task.tDueDate = inputDueTime.value;
-	task.tUrl = url.value;
-	task.tNotes = taskNotes.value;
-	tPriority = p;
-	tNotify = notify.value;
-	tNotifyUrl = notifyUrl.value;
-
-	if(validateTask)
-	{
-
-	addTaskToList(task);
-	addTaskToArray(task);
-	cancelSaving();
-
-	}
-	
-}
+    /*add task variables*/
+    var taskName = index.getElementById('inputTaskName'),
+        inputDueTime = index.getElementById('inputDueTime'),
+        url = index.getElementById('basic-url'),
+        taskNotes = index.getElementById('taskNotes'),
+        priority = index.getElementById('pButton'),
+        notify = index.getElementById('notifyCheckBox'),
+        notifyUrl = index.getElementById('notifyUrlCheckBox'),
+        calIcon = index.getElementById('calIcon'),
+        cancelButton = index.getElementById('cancelSave'),
+        saveButtton = index.getElementById('saveTask');
 
 
-
-function addTaskToList(task){
-		$('#hiddenTaskList').addClass('hidden');
-		$('#taskList').append("<tr id='" + task.tId + "'>" +
-							"<td><a href='#'>" + task.tName + "</a></td>" +
-							"<td>" + task.tDueDate + "</td>" +
-							"<td>" + p + "</td>" +
-							"<td>" +
-								"<a href='#' class='edit'>Edit </a>" +
-								"<a href='#' class='del'>Delete</a>" +
-							"</td>" +
-						"</tr>");
-		id++;
-
-		console.log(p);
-	}
-
-
-function addTaskToArray(task)
-{
-	for(t in tasks)
-	{	
-		if(task != task){
-	tasks.push(task);
-}
-else
-{
-	alert("Task already exists");
-}
-}
-}
-
-function cancelSaving()
-{
-	console.log("callign cancelSaving")
-
-	$('#frontPanel').removeClass('hidden');
-	$('#topTitle').removeClass('hidden');
-	$('#addTask').addClass('hidden');
-
-	//url.value = "";
+    // creating task object (constructor)
+    function createTaskObj(Id, name, dueDate, url, notes, priority, notify, notifyUrl) {
+    	console.log("creating task object");
+        this.tId = Id;
+        this.tName = name;
+        this.tDueDate = dueDate;
+        this.tUrl = url;
+        this.tNotes = notes;
+        this.tPriority = priority;
+        this.tNotify = notify;
+        this.tNotifyUrl = notifyUrl;
+    }
 
 
 
 
-}
+    //
+    createTask.addEventListener('click', createNewTask);
+    calIcon.addEventListener('click', popCal);
+    cancelButton.addEventListener('click', showtaskList);
+    saveButtton.addEventListener('click', saveTask);
 
-function createNewTask()
-{
-	console.log("calling create task");
-	$('#frontPanel').addClass('hidden');
-	$('#topTitle').addClass('hidden');
-	$('#addTask').removeClass('hidden');
-	
-}
+    // drop down button text update 
+    $('.dropdown-menu').on('click', 'a', function() {
+        console.log("changing button text");
 
-
-
-	//$('#calIcon').addEventListener('click', popCal);
-	function popCal()
-	{
-		console.log("picking time");
-		$('#dueDateTime').datetimepicker({
-			format: 'YYYY/MM/DD hh:mm A'
-		});
-	}
-
-	//createTask.addEventListener('click', createNewTab);
+        var text = $(this).html();
+        console.log(text);
+        p = text;
+        var option = text + ' <span class="caret"></span>';
+        $(this).closest('.btn-group').find('.dropdown-toggle').html(option);
 
 
-	var name = "time to pay bill";
+    });
 
-	var alarmInfo = {
-		when: Date.now() + 1000
-	};
+    function saveTask() {
+        console.log("calling save task");
+
+        id += 1;
+        var name = taskName.value;
+        var dueDate = inputDueTime.value;
+        var UrlToOpen = url.value;
+        var notes = taskNotes.value;
+        var pty = p;
+        //tNotify = getCheckBoxValue("notifyCheckBox");
+        var nfy = (function() {
+            var a;
+            if ($('#notifyCheckBox').is(':checked')) {
+                console.log("true");
+
+                a = true;
+            } else {
+                console.log("false");
+
+                a = false;
+            }
+            return a;
+        })();
+        //tNotifyUrl = getCheckBoxValue("notifyUrlCheckBox");
+        var nfyUrl = (function() {
+            var a;
+            if ($('#notifyUrlCheckBox').is(':checked')) {
+                console.log("true");
+
+                a = true;
+            } else {
+                console.log("false");
+
+                a = false;
+            }
+            return a;
+        })();
+
+        var task = new createTaskObj(id, name, dueDate, UrlToOpen, notes, pty, nfy, nfyUrl);
+
+        //if(validateTask)
+        //{
 
 
-	function setAlarm() {
-		// body...
-		alert("setting up alarm");
-		chrome.alarms.create(name, alarmInfo);
-		alert("alarm went off")
+        addTaskToList(task);
+        //	addTaskToArray(task);
+        showtaskList();
 
-	}
+        //	}
 
-	
-
-
-	function createNewTab()
-	{
-		var createProperties = {
-			active: true,
-			index: 1,
-	    //url: "https://www.google.com/",
-	    url: "http://singhgurpreet.us/"
-	};
-	chrome.tabs.create(createProperties, function(response)
-	{
-		if(response)
-		{
-			setAlarm();
-			console.log("new window created");
-		}
-	});
-}
+    }
 
 
 
-	
+    function addTaskToList(task) {
+        $('#hiddenTaskList').addClass('hidden');
+        $('#taskList').append("<tr id='" + task.tId + "'>" +
+            "<td><a href='#'>" + task.tName + "</a></td>" +
+            "<td>" + task.tDueDate + "</td>" +
+            "<td>" + p + "</td>" +
+            "<td>" +
+            "<a href='#' class='edit'>Edit </a>" +
+            "<a href='#' class='del'>Delete</a>" +
+            "</td>" +
+            "</tr>");
+        id++;
+
+        console.log(p);
+        console.log("printing checked" + task.tNotify);
+
+        //$('#notifyCheckBox:checked') ? "true" : "false";
+        /*	if($('#notifyCheckBox').is(':checked')) {
+         console.log('on');
+        }
+        else {
+         console.log('off');
+        }*/
+
+    }
+
+    function getCheckBoxValue(id) {
+        if ($('#' + id).is(':checked')) {
+            console.log("true");
+
+            return true;
+        } else {
+            console.log("false");
+
+            return false;
+        }
+    }
+
+
+    function addTaskToArray(task) {
+        for (t in tasks) {
+            if (task != task) {
+                tasks.push(task);
+            } else {
+                alert("Task already exists");
+            }
+        }
+    }
+
+    function showtaskList() {
+        console.log("callign showtaskList")
+
+        $('#frontPanel').removeClass('hidden');
+        $('#topTitle').removeClass('hidden');
+        $('#addTask').addClass('hidden');
+
+        //url.value = "";
+
+
+
+
+    }
+
+    function createNewTask() {
+        console.log("calling create task");
+        $('#frontPanel').addClass('hidden');
+        $('#topTitle').addClass('hidden');
+        $('#addTask').removeClass('hidden');
+
+    }
+
+
+
+    //$('#calIcon').addEventListener('click', popCal);
+    function popCal() {
+        console.log("picking time");
+        $('#dueDateTime').datetimepicker({
+            format: 'YYYY/MM/DD hh:mm A'
+        });
+    }
+
+    //createTask.addEventListener('click', createNewTab);
+
+
+    //var name = "time to pay bill";
+
+    var alarmInfo = {
+        when: Date.now() + 1000
+    };
+
+
+    function setAlarm() {
+        // body...
+        alert("setting up alarm");
+        chrome.alarms.create(name, alarmInfo);
+        alert("alarm went off")
+
+    }
+
+
+
+
+    function createNewTab() {
+        var createProperties = {
+            active: true,
+            index: 1,
+            //url: "https://www.google.com/",
+            url: "http://singhgurpreet.us/"
+        };
+        chrome.tabs.create(createProperties, function(response) {
+            if (response) {
+                setAlarm();
+                console.log("new window created");
+            }
+        });
+    }
+
+
+
+
 }
 
 
