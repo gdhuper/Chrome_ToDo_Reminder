@@ -1,15 +1,15 @@
 var popup = function() {
-    "use strict"
+	"use strict"
 
     //defining global variables
     var tId = 0,
-        tName = null,
-        tDueDate = null,
-        tUrl = null,
-        tNotes = null,
-        tPriority = null,
-        tNotify = false,
-        tNotifyUrl = false;
+    tName = null,
+    tDueDate = null,
+    tUrl = null,
+    tNotes = null,
+    tPriority = null,
+    tNotify = false,
+    tNotifyUrl = false;
 
     var p = null; //to save priority from dropdown button
 
@@ -20,38 +20,38 @@ var popup = function() {
 
     /*Index page variables*/
     var index = document,
-        tasks = [],
-        id = 0,
-        idxHeading = index.getElementById('topTitle'),
-        createTask = index.getElementById('createTask'),
-        front = index.getElementById('frontPanel'),
-        taskList = index.getElementById('taskList'),
-        addTask = index.getElementById('addTask');
+    tasks = [],
+    id = 0,
+    idxHeading = index.getElementById('topTitle'),
+    createTask = index.getElementById('createTask'),
+    front = index.getElementById('frontPanel'),
+    taskList = index.getElementById('taskList'),
+    addTask = index.getElementById('addTask');
 
     /*add task variables*/
     var taskName = index.getElementById('inputTaskName'),
-        inputDueTime = index.getElementById('inputDueTime'),
-        url = index.getElementById('basic-url'),
-        taskNotes = index.getElementById('taskNotes'),
-        priority = index.getElementById('pButton'),
-        notify = index.getElementById('notifyCheckBox'),
-        notifyUrl = index.getElementById('notifyUrlCheckBox'),
-        calIcon = index.getElementById('calIcon'),
-        cancelButton = index.getElementById('cancelSave'),
-        saveButtton = index.getElementById('saveTask');
+    inputDueTime = index.getElementById('inputDueTime'),
+    url = index.getElementById('basic-url'),
+    taskNotes = index.getElementById('taskNotes'),
+    priority = index.getElementById('pButton'),
+    notify = index.getElementById('notifyCheckBox'),
+    notifyUrl = index.getElementById('notifyUrlCheckBox'),
+    calIcon = index.getElementById('calIcon'),
+    cancelButton = index.getElementById('cancelSave'),
+    saveButtton = index.getElementById('saveTask');
 
 
     // creating task object (constructor)
     function createTaskObj(Id, name, dueDate, url, notes, priority, notify, notifyUrl) {
     	console.log("creating task object");
-        this.tId = Id;
-        this.tName = name;
-        this.tDueDate = dueDate;
-        this.tUrl = url;
-        this.tNotes = notes;
-        this.tPriority = priority;
-        this.tNotify = notify;
-        this.tNotifyUrl = notifyUrl;
+    	this.tId = Id;
+    	this.tName = name;
+    	this.tDueDate = dueDate;
+    	this.tUrl = url;
+    	this.tNotes = notes;
+    	this.tPriority = priority;
+    	this.tNotify = notify;
+    	this.tNotifyUrl = notifyUrl;
     }
 
 
@@ -65,53 +65,53 @@ var popup = function() {
 
     // drop down button text update 
     $('.dropdown-menu').on('click', 'a', function() {
-        console.log("changing button text");
+    	console.log("changing button text");
 
-        var text = $(this).html();
-        console.log(text);
-        p = text;
-        var option = text + ' <span class="caret"></span>';
-        $(this).closest('.btn-group').find('.dropdown-toggle').html(option);
+    	var text = $(this).html();
+    	console.log(text);
+    	p = text;
+    	var option = text + ' <span class="caret"></span>';
+    	$(this).closest('.btn-group').find('.dropdown-toggle').html(option);
 
 
     });
 
     function saveTask() {
-        console.log("calling save task");
+    	console.log("calling save task");
 
-        id += 1;
-        var name = taskName.value;
-        var dueDate = inputDueTime.value;
-        var UrlToOpen = url.value;
-        var notes = taskNotes.value;
-        var pty = p;
+    	id += 1;
+    	var name = taskName.value;
+    	var dueDate = inputDueTime.value;
+    	var UrlToOpen = url.value;
+    	var notes = taskNotes.value;
+    	var pty = p;
         //tNotify = getCheckBoxValue("notifyCheckBox");
         var nfy = (function() {
-            var a;
-            if ($('#notifyCheckBox').is(':checked')) {
-                console.log("true");
+        	var a;
+        	if ($('#notifyCheckBox').is(':checked')) {
+        		console.log("true");
 
-                a = true;
-            } else {
-                console.log("false");
+        		a = true;
+        	} else {
+        		console.log("false");
 
-                a = false;
-            }
-            return a;
+        		a = false;
+        	}
+        	return a;
         })();
         //tNotifyUrl = getCheckBoxValue("notifyUrlCheckBox");
         var nfyUrl = (function() {
-            var a;
-            if ($('#notifyUrlCheckBox').is(':checked')) {
-                console.log("true");
+        	var a;
+        	if ($('#notifyUrlCheckBox').is(':checked')) {
+        		console.log("true");
 
-                a = true;
-            } else {
-                console.log("false");
+        		a = true;
+        	} else {
+        		console.log("false");
 
-                a = false;
-            }
-            return a;
+        		a = false;
+        	}
+        	return a;
         })();
 
         var task = new createTaskObj(id, name, dueDate, UrlToOpen, notes, pty, nfy, nfyUrl);
@@ -120,9 +120,9 @@ var popup = function() {
         //{
 
 
-        addTaskToList(task);
-        //	addTaskToArray(task);
-        showtaskList();
+        	addTaskToList(task);
+        	addTaskToArray(task);
+        	showtaskList();
 
         //	}
 
@@ -131,20 +131,20 @@ var popup = function() {
 
 
     function addTaskToList(task) {
-        $('#hiddenTaskList').addClass('hidden');
-        $('#taskList').append("<tr id='" + task.tId + "'>" +
-            "<td><a href='#'>" + task.tName + "</a></td>" +
-            "<td>" + task.tDueDate + "</td>" +
-            "<td>" + p + "</td>" +
-            "<td>" +
-            "<a href='#' class='edit'>Edit </a>" +
-            "<a href='#' class='del'>Delete</a>" +
-            "</td>" +
-            "</tr>");
-        id++;
+    	$('#hiddenTaskList').addClass('hidden');
+    	$('#taskList').append("<tr id='" + task.tId + "'>" +
+    		"<td><a href='#'>" + task.tName + "</a></td>" +
+    		"<td>" + task.tDueDate + "</td>" +
+    		"<td>" + p + "</td>" +
+    		"<td>" +
+    		"<a href='#' class='edit'>Edit </a>" +
+    		"<a href='#' class='del'>Delete</a>" +
+    		"</td>" +
+    		"</tr>");
+    	id++;
 
-        console.log(p);
-        console.log("printing checked" + task.tNotify);
+    	console.log(p);
+    	console.log("printing checked " + task.tNotify);
 
         //$('#notifyCheckBox:checked') ? "true" : "false";
         /*	if($('#notifyCheckBox').is(':checked')) {
@@ -152,39 +152,38 @@ var popup = function() {
         }
         else {
          console.log('off');
-        }*/
+     }*/
 
-    }
+ }
 
-    function getCheckBoxValue(id) {
-        if ($('#' + id).is(':checked')) {
-            console.log("true");
+ function getCheckBoxValue(id) {
+ 	if ($('#' + id).is(':checked')) {
+ 		console.log("true");
 
-            return true;
-        } else {
-            console.log("false");
+ 		return true;
+ 	} else {
+ 		console.log("false");
 
-            return false;
-        }
-    }
+ 		return false;
+ 	}
+ }
 
 
-    function addTaskToArray(task) {
-        for (t in tasks) {
-            if (task != task) {
-                tasks.push(task);
-            } else {
-                alert("Task already exists");
-            }
-        }
-    }
+ function addTaskToArray(task) {
+ 	for (t in tasks) {
+ 		
+ 		console.log("pushing task to array list");
+ 			tasks.push(task);
+ 		
+ 	}
+ }
 
-    function showtaskList() {
-        console.log("callign showtaskList")
+ function showtaskList() {
+ 	console.log("callign showtaskList")
 
-        $('#frontPanel').removeClass('hidden');
-        $('#topTitle').removeClass('hidden');
-        $('#addTask').addClass('hidden');
+ 	$('#frontPanel').removeClass('hidden');
+ 	$('#topTitle').removeClass('hidden');
+ 	$('#addTask').addClass('hidden');
 
         //url.value = "";
 
@@ -194,10 +193,10 @@ var popup = function() {
     }
 
     function createNewTask() {
-        console.log("calling create task");
-        $('#frontPanel').addClass('hidden');
-        $('#topTitle').addClass('hidden');
-        $('#addTask').removeClass('hidden');
+    	console.log("calling create task");
+    	$('#frontPanel').addClass('hidden');
+    	$('#topTitle').addClass('hidden');
+    	$('#addTask').removeClass('hidden');
 
     }
 
@@ -205,10 +204,10 @@ var popup = function() {
 
     //$('#calIcon').addEventListener('click', popCal);
     function popCal() {
-        console.log("picking time");
-        $('#dueDateTime').datetimepicker({
-            format: 'YYYY/MM/DD hh:mm A'
-        });
+    	console.log("picking time");
+    	$('#dueDateTime').datetimepicker({
+    		format: 'YYYY/MM/DD hh:mm A'
+    	});
     }
 
     //createTask.addEventListener('click', createNewTab);
@@ -217,7 +216,7 @@ var popup = function() {
     //var name = "time to pay bill";
 
     var alarmInfo = {
-        when: Date.now() + 1000
+    	when: Date.now() + 1000
     };
 
 
@@ -233,24 +232,41 @@ var popup = function() {
 
 
     function createNewTab() {
-        var createProperties = {
-            active: true,
-            index: 1,
+    	var createProperties = {
+    		active: true,
+    		index: 1,
             //url: "https://www.google.com/",
             url: "http://singhgurpreet.us/"
         };
         chrome.tabs.create(createProperties, function(response) {
-            if (response) {
-                setAlarm();
-                console.log("new window created");
-            }
+        	if (response) {
+        		setAlarm();
+        		console.log("new window created");
+        	}
         });
     }
 
 
+    function loadTaskList(tasks)
+    {
+    	for(t in tasks)
+    	{
+    		addTaskToList(t);
+    	}
+    	showtaskList();
+    }
+
+    function Init(){
+    	loadTaskList();
+    }
+    return Init();
 
 
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+  	popup();
+  	
+});
 
-popup();
+
