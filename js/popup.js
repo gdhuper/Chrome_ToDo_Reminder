@@ -122,42 +122,19 @@ var popup = function() {
 
     }
 
+
     function validateTask(task) {
-    	if (isEmpty(task)) {
-    		console.log("Empty Fields! Please input a task")
+    	if (task == null) {
+    		console.log("Empty Fields! Please input a task");
     	} else {
-    		console.log("Non empty")
+    		console.log("Non empty");
     	}
     }
 
 
-    function isEmpty(obj) {
-    	for (var key in obj) {
-    		if (obj == null)
-    			return false;
-    	}
-    	return true;
-    }
 
 
-    function resetFormFields() {
-    	console.log("reseting form");
-
-        //Reseting form input fields
-        document.getElementById("taskForm").reset();
-
-        //Reseting checkboxes
-        $('#notifyCheckBox').attr('checked', false);
-        $('#notifyUrlCheckBox').attr('checked', false);
-
-        //Reseting priority button value to None
-        var option = 'None' + ' <span class="caret"></span>';
-        $('.dropdown-menu').closest('.btn-group').find('.dropdown-toggle').html(option);
-
-
-    }
-
-
+    
 
     function addTaskToList(task) {
     	$('#hiddenTaskList').addClass('hidden');
@@ -231,6 +208,27 @@ var popup = function() {
 
     }
 
+
+    function resetFormFields() {
+    	console.log("reseting form");
+
+        //Reseting form input fields
+        document.getElementById("taskForm").reset();
+
+        //Reseting checkboxes
+        $('#notifyCheckBox').attr('checked', false);
+        $('#notifyUrlCheckBox').attr('checked', false);
+
+        //Reseting priority button value to None
+        var option = 'None' + ' <span class="caret"></span>';
+        $('.dropdown-menu').closest('.btn-group').find('.dropdown-toggle').html(option);
+
+
+    }
+
+
+
+    //toggle index page with task list
     function displayTasks() {
     	console.log("calling displayTasks")
 
@@ -239,6 +237,7 @@ var popup = function() {
     	$('#addTask').addClass('hidden');
     }
 
+    //toggle create task form 
     function createNewTask() {
     	console.log("calling create task");
     	$('#frontPanel').addClass('hidden');
@@ -248,8 +247,7 @@ var popup = function() {
     }
 
 
-
-    //$('#calIcon').addEventListener('click', popCal);
+    //calling datetimepicker api
     function popCal() {
     	console.log("picking time");
     	$('#dueDateTime').datetimepicker({
@@ -261,7 +259,7 @@ var popup = function() {
 
 
     //var name = "time to pay bill";
-
+    /*
     var alarmInfo = {
     	when: Date.now() + 1000
     };
@@ -273,12 +271,12 @@ var popup = function() {
         chrome.alarms.create(name, alarmInfo);
         alert("alarm went off")
 
-    }
+    }*/
 
 
 
 
-    function createNewTab() {
+    /*function createNewTab() {
     	var createProperties = {
     		active: true,
     		index: 1,
@@ -291,9 +289,9 @@ var popup = function() {
         		console.log("new window created");
         	}
         });
-    }
+    }*/
 
-
+    //load all tasks on startup 
     function loadTaskList(tasks) {
     	//getTaskList();
     	for (t in tasks) {
@@ -306,7 +304,7 @@ var popup = function() {
     function Init() {
     	loadTaskList();
     }
-   // return Init();
+    return Init();
 
 
 }
