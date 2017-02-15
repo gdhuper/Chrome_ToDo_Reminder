@@ -127,7 +127,7 @@ var popup = function() {
     	if (task == null) {
     		console.log("Empty Fields! Please input a task");
     	} else {
-    		console.log("Non empty");
+    		console.log("Non empty fields");
     	}
     }
 
@@ -148,43 +148,41 @@ var popup = function() {
     		"</td>" +
     		"</tr>");
 
+    	//reset form after appending task to list
     	resetFormFields();
 
-    	console.log(p);
+    	//debugging message
     	console.log("printing checked " + task.tNotify);
 
     }
 
-    function saveChanges(tasksList) {
+
+    function saveTaskList(tasksList) {
         // Get a value saved in a form.
-     	
+
         // Check that there's some code there.
         if (!taskList) {
         	message('Error: No value specified');
         	return;
         }
         // Save it using the Chrome extension storage API.
-        chrome.storage.sync.set({'list': tasksList}, function() {
+        chrome.storage.local.set({"list": tasksList}, function() {
           // Notify that we saved.
           console.log('tasks saved in storage');
       });
     }
 
-    function getTaskList()
-    {
-    	var taskList;
-    	console.log('in getTaskList');
-    	 
-        // Save it using the Chrome extension storage API.
-        chrome.storage.get('list', function()
-        {
-        	console.log("retrieving tasks from storage");
-        	this.tasks = result;
-        });
+    // load tasks from chrome storage
+    function loadData(){
+    	console.log("loading data");
+    	chrome.storage.local.get("list", function(result){
+    		console.log(result);
+    		//tasks = result;
+    		var temp = JSON.stringify(result);
+    			console.log("printing objs " + temp);
 
-
+    	});
     }
-
 
     function getCheckBoxValue(id) {
     	if ($('#' + id).is(':checked')) {
@@ -200,17 +198,17 @@ var popup = function() {
 
 
     function addTaskToArray(task) {
-   
-
-    		console.log("pushing task to array list");
-    		tasks.push(task);
-    		//saveChanges(this.tasks);
-
-    }
 
 
-    function resetFormFields() {
-    	console.log("reseting form");
+    	console.log("pushing task to array list");
+    	//tasks.push(task);
+    	saveTaskList(tasks);
+
+    	}
+
+
+    	function resetFormFields() {
+    		console.log("reseting form");
 
         //Reseting form input fields
         document.getElementById("taskForm").reset();
@@ -291,18 +289,30 @@ var popup = function() {
         });
     }*/
 
+
+    function clearStorage()
+    {
+        console.log("clearing storage data");
+        chrome.storage.local.clear(function(){
+            console.log("Storage cleared!");
+
+        });
+    }
+
     //load all tasks on startup 
     function loadTaskList(tasks) {
     	//getTaskList();
-    	for (t in tasks) {
+    	/*for (t in tasks) {
     		addTaskToList(t);
     		console.log("printing tasks" + t);
-    	}
+    	}*/
     	displayTasks();
     }
 
     function Init() {
-    	loadTaskList();
+        loadData();
+    	loadTaskList(tasks);
+    	
     }
     return Init();
 
