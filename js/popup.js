@@ -109,7 +109,7 @@ var popup = function() {
 
         //if(validateTask)
         //{
-        //validateTask(task);
+        validateTask(task);
         addTaskToList(task);
         addTaskToArray(task);
         displayTasks();
@@ -131,7 +131,7 @@ var popup = function() {
 
     function isEmpty(obj) {
         for (var key in obj) {
-            if (obj.hasOwnProperty(key))
+            if (obj == null)
                 return false;
         }
         return true;
@@ -168,7 +168,6 @@ var popup = function() {
             "<a href='#' class='del'>Delete</a>" +
             "</td>" +
             "</tr>");
-        id++;
 
         resetFormFields();
 
