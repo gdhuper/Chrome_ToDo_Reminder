@@ -1,15 +1,15 @@
 var popup = function() {
-    "use strict"
+	"use strict"
 
     //defining global variables
     var tId = 0,
-        tName = null,
-        tDueDate = null,
-        tUrl = null,
-        tNotes = null,
-        tPriority = null,
-        tNotify = false,
-        tNotifyUrl = false;
+    tName = null,
+    tDueDate = null,
+    tUrl = null,
+    tNotes = null,
+    tPriority = null,
+    tNotify = false,
+    tNotifyUrl = false;
 
     var p = null; //to save priority from dropdown button
 
@@ -20,38 +20,38 @@ var popup = function() {
 
     /*Index page variables*/
     var index = document,
-        tasks = [],
-        id = 0,
-        idxHeading = index.getElementById('topTitle'),
-        createTask = index.getElementById('createTask'),
-        front = index.getElementById('frontPanel'),
-        taskList = index.getElementById('taskList'),
-        addTask = index.getElementById('addTask');
+    tasks = [],
+    id = 0,
+    idxHeading = index.getElementById('topTitle'),
+    createTask = index.getElementById('createTask'),
+    front = index.getElementById('frontPanel'),
+    taskList = index.getElementById('taskList'),
+    addTask = index.getElementById('addTask');
 
     /*add task variables*/
     var taskName = index.getElementById('inputTaskName'),
-        inputDueTime = index.getElementById('inputDueTime'),
-        url = index.getElementById('basic-url'),
-        taskNotes = index.getElementById('taskNotes'),
-        priority = index.getElementById('pButton'),
-        notify = index.getElementById('notifyCheckBox'),
-        notifyUrl = index.getElementById('notifyUrlCheckBox'),
-        calIcon = index.getElementById('calIcon'),
-        cancelButton = index.getElementById('cancelSave'),
-        saveButtton = index.getElementById('saveTask');
+    inputDueTime = index.getElementById('inputDueTime'),
+    url = index.getElementById('basic-url'),
+    taskNotes = index.getElementById('taskNotes'),
+    priority = index.getElementById('pButton'),
+    notify = index.getElementById('notifyCheckBox'),
+    notifyUrl = index.getElementById('notifyUrlCheckBox'),
+    calIcon = index.getElementById('calIcon'),
+    cancelButton = index.getElementById('cancelSave'),
+    saveButtton = index.getElementById('saveTask');
 
 
     // creating task object (constructor)
     function createTaskObj(Id, name, dueDate, url, notes, priority, notify, notifyUrl) {
-        console.log("creating task object");
-        this.tId = Id;
-        this.tName = name;
-        this.tDueDate = dueDate;
-        this.tUrl = url;
-        this.tNotes = notes;
-        this.tPriority = priority;
-        this.tNotify = notify;
-        this.tNotifyUrl = notifyUrl;
+    	console.log("creating task object");
+    	this.tId = Id;
+    	this.tName = name;
+    	this.tDueDate = dueDate;
+    	this.tUrl = url;
+    	this.tNotes = notes;
+    	this.tPriority = priority;
+    	this.tNotify = notify;
+    	this.tNotifyUrl = notifyUrl;
 
 
 
@@ -68,51 +68,53 @@ var popup = function() {
 
     // drop down button text update 
     $('.dropdown-menu').on('click', 'a', function() {
-        console.log("changing button text");
+    	console.log("changing button text");
 
-        var text = $(this).html();
-        console.log(text);
-        p = text;
-        var option = text + ' <span class="caret"></span>';
-        $(this).closest('.btn-group').find('.dropdown-toggle').html(option);
+    	var text = $(this).html();
+    	console.log(text);
+    	p = text;
+    	var option = text + ' <span class="caret"></span>';
+    	$(this).closest('.btn-group').find('.dropdown-toggle').html(option);
 
 
     });
 
     function saveTask() {
-        console.log("calling save task");
+    	console.log("calling save task");
 
-        id += 1;
-        var name = taskName.value;
-        var dueDate = inputDueTime.value;
-        var UrlToOpen = url.value;
-        var notes = taskNotes.value;
-        var pty = p;
-        var nfy = (function() {
+    	id += 1;
+    	var name = taskName.value;
+    	var dueDate = inputDueTime.value;
+    	var UrlToOpen = url.value;
+    	var notes = taskNotes.value;
+    	var pty = p;
+    	var nfy = (function() {
 
-            if ($('#notifyCheckBox').is(':checked')) {
-                return true;
-            } else {
-                return false;
-            }
+    		if ($('#notifyCheckBox').is(':checked')) {
+    			return true;
+    		} else {
+    			return false;
+    		}
 
-        })();
-        var nfyUrl = (function() {
-            if ($('#notifyUrlCheckBox').is(':checked')) {
-                return true;
-            } else {
-                return false;
-            }
-        })();
+    	})();
+    	var nfyUrl = (function() {
+    		if ($('#notifyUrlCheckBox').is(':checked')) {
+    			return true;
+    		} else {
+    			return false;
+    		}
+    	})();
 
-        var task = new createTaskObj(id, name, dueDate, UrlToOpen, notes, pty, nfy, nfyUrl);
+    	var task = new createTaskObj(id, name, dueDate, UrlToOpen, notes, pty, nfy, nfyUrl);
 
         //if(validateTask)
         //{
-        validateTask(task);
-        addTaskToList(task);
-        addTaskToArray(task);
-        displayTasks();
+        	validateTask(task);
+        	addTaskToList(task);
+        	addTaskToArray(task);
+        	displayTasks();
+
+        //printing contents of task objects
         var str = JSON.stringify(task);
 
         console.log("printing task details :" + str);
@@ -121,25 +123,25 @@ var popup = function() {
     }
 
     function validateTask(task) {
-        if (isEmpty(task)) {
-            console.log("Empty Fields! Please input a task")
-        } else {
-            console.log("Non empty")
-        }
+    	if (isEmpty(task)) {
+    		console.log("Empty Fields! Please input a task")
+    	} else {
+    		console.log("Non empty")
+    	}
     }
 
 
     function isEmpty(obj) {
-        for (var key in obj) {
-            if (obj == null)
-                return false;
-        }
-        return true;
+    	for (var key in obj) {
+    		if (obj == null)
+    			return false;
+    	}
+    	return true;
     }
 
 
     function resetFormFields() {
-        console.log("reseting form");
+    	console.log("reseting form");
 
         //Reseting form input fields
         document.getElementById("taskForm").reset();
@@ -158,59 +160,90 @@ var popup = function() {
 
 
     function addTaskToList(task) {
-        $('#hiddenTaskList').addClass('hidden');
-        $('#taskList').append("<tr id='" + task.tId + "'>" +
-            "<td><a href='#'>" + task.tName + "</a></td>" +
-            "<td>" + task.tDueDate + "</td>" +
-            "<td>" + p + "</td>" +
-            "<td>" +
-            "<a href='#' class='edit'>Edit </a>" +
-            "<a href='#' class='del'>Delete</a>" +
-            "</td>" +
-            "</tr>");
+    	$('#hiddenTaskList').addClass('hidden');
+    	$('#taskList').append("<tr id='" + task.tId + "'>" +
+    		"<td><a href='#'>" + task.tName + "</a></td>" +
+    		"<td>" + task.tDueDate + "</td>" +
+    		"<td>" + p + "</td>" +
+    		"<td>" +
+    		"<a href='#' class='edit'>Edit </a>" +
+    		"<a href='#' class='del'>Delete</a>" +
+    		"</td>" +
+    		"</tr>");
 
-        resetFormFields();
+    	resetFormFields();
 
-        console.log(p);
-        console.log("printing checked " + task.tNotify);
+    	console.log(p);
+    	console.log("printing checked " + task.tNotify);
 
     }
 
-    function getCheckBoxValue(id) {
-        if ($('#' + id).is(':checked')) {
-            console.log("true");
-
-            return true;
-        } else {
-            console.log("false");
-
-            return false;
+    function saveChanges(tasksList) {
+        // Get a value saved in a form.
+     	
+        // Check that there's some code there.
+        if (!taskList) {
+        	message('Error: No value specified');
+        	return;
         }
+        // Save it using the Chrome extension storage API.
+        chrome.storage.sync.set({'list': tasksList}, function() {
+          // Notify that we saved.
+          console.log('tasks saved in storage');
+      });
+    }
+
+    function getTaskList()
+    {
+    	var taskList;
+    	console.log('in getTaskList');
+    	 
+        // Save it using the Chrome extension storage API.
+        chrome.storage.get('list', function()
+        {
+        	console.log("retrieving tasks from storage");
+        	this.tasks = result;
+        });
+
+
+    }
+
+
+    function getCheckBoxValue(id) {
+    	if ($('#' + id).is(':checked')) {
+    		console.log("true");
+
+    		return true;
+    	} else {
+    		console.log("false");
+
+    		return false;
+    	}
     }
 
 
     function addTaskToArray(task) {
-        for (t in tasks) {
+   
 
-            console.log("pushing task to array list");
-            tasks.push(task);
+    		console.log("pushing task to array list");
+    		tasks.push(task);
+    		//saveChanges(this.tasks);
 
-        }
     }
 
     function displayTasks() {
-        console.log("calling displayTasks")
+    	console.log("calling displayTasks")
 
-        $('#frontPanel').removeClass('hidden');
-        $('#topTitle').removeClass('hidden');
-        $('#addTask').addClass('hidden');
+    	$('#frontPanel').removeClass('hidden');
+    	$('#topTitle').removeClass('hidden');
+    	$('#addTask').addClass('hidden');
     }
 
     function createNewTask() {
-        console.log("calling create task");
-        $('#frontPanel').addClass('hidden');
-        $('#topTitle').addClass('hidden');
-        $('#addTask').removeClass('hidden');
+    	console.log("calling create task");
+    	$('#frontPanel').addClass('hidden');
+    	$('#topTitle').addClass('hidden');
+    	$('#addTask').removeClass('hidden');
 
     }
 
@@ -218,10 +251,10 @@ var popup = function() {
 
     //$('#calIcon').addEventListener('click', popCal);
     function popCal() {
-        console.log("picking time");
-        $('#dueDateTime').datetimepicker({
-            format: 'YYYY/MM/DD hh:mm A'
-        });
+    	console.log("picking time");
+    	$('#dueDateTime').datetimepicker({
+    		format: 'YYYY/MM/DD hh:mm A'
+    	});
     }
 
     //createTask.addEventListener('click', createNewTab);
@@ -230,7 +263,7 @@ var popup = function() {
     //var name = "time to pay bill";
 
     var alarmInfo = {
-        when: Date.now() + 1000
+    	when: Date.now() + 1000
     };
 
 
@@ -246,37 +279,39 @@ var popup = function() {
 
 
     function createNewTab() {
-        var createProperties = {
-            active: true,
-            index: 1,
+    	var createProperties = {
+    		active: true,
+    		index: 1,
             //url: "https://www.google.com/",
             url: "http://singhgurpreet.us/"
         };
         chrome.tabs.create(createProperties, function(response) {
-            if (response) {
-                setAlarm();
-                console.log("new window created");
-            }
+        	if (response) {
+        		setAlarm();
+        		console.log("new window created");
+        	}
         });
     }
 
 
     function loadTaskList(tasks) {
-        for (t in tasks) {
-            addTaskToList(t);
-        }
-        displayTasks();
+    	//getTaskList();
+    	for (t in tasks) {
+    		addTaskToList(t);
+    		console.log("printing tasks" + t);
+    	}
+    	displayTasks();
     }
 
     function Init() {
-        loadTaskList();
+    	loadTaskList();
     }
-    return Init();
+   // return Init();
 
 
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    popup();
+	popup();
 
 });
