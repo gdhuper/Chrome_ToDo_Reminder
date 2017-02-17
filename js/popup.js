@@ -1,15 +1,15 @@
 var popup = function() {
-  //  "use strict"
+    //  "use strict"
 
     //defining global variables
     var tId = 0,
-    tName = null,
-    tDueDate = null,
-    tUrl = null,
-    tNotes = null,
-    tPriority = null,
-    tNotify = false,
-    tNotifyUrl = false;
+        tName = null,
+        tDueDate = null,
+        tUrl = null,
+        tNotes = null,
+        tPriority = null,
+        tNotify = false,
+        tNotifyUrl = false;
 
     var p = null; //to save priority from dropdown button
 
@@ -20,25 +20,25 @@ var popup = function() {
 
     /*Index page variables*/
     var index = document,
-    tasks = [],
-    id = 0,
-    idxHeading = index.getElementById('topTitle'),
-    createTask = index.getElementById('createTask'),
-    front = index.getElementById('frontPanel'),
-    taskList = index.getElementById('taskList'),
-    addTask = index.getElementById('addTask');
+        tasks = [],
+        id = 0,
+        idxHeading = index.getElementById('topTitle'),
+        createTask = index.getElementById('createTask'),
+        front = index.getElementById('frontPanel'),
+        taskList = index.getElementById('taskList'),
+        addTask = index.getElementById('addTask');
 
     /*add task variables*/
     var taskName = index.getElementById('inputTaskName'),
-    inputDueTime = index.getElementById('inputDueTime'),
-    url = index.getElementById('basic-url'),
-    taskNotes = index.getElementById('taskNotes'),
-    priority = index.getElementById('pButton'),
-    notify = index.getElementById('notifyCheckBox'),
-    notifyUrl = index.getElementById('notifyUrlCheckBox'),
-    calIcon = index.getElementById('calIcon'),
-    cancelButton = index.getElementById('cancelSave'),
-    saveButtton = index.getElementById('saveTask');
+        inputDueTime = index.getElementById('inputDueTime'),
+        url = index.getElementById('basic-url'),
+        taskNotes = index.getElementById('taskNotes'),
+        priority = index.getElementById('pButton'),
+        notify = index.getElementById('notifyCheckBox'),
+        notifyUrl = index.getElementById('notifyUrlCheckBox'),
+        calIcon = index.getElementById('calIcon'),
+        cancelButton = index.getElementById('cancelSave'),
+        saveButtton = index.getElementById('saveTask');
 
 
     // creating task object (constructor)
@@ -109,11 +109,11 @@ var popup = function() {
 
         //if(validateTask)
         //{ 
-            printTask(task);
-            validateTask(task);
-            addTaskToHTML(task);
-            addTaskToArray(task);
-            displayTasks();
+        printTask(task);
+        validateTask(task);
+        addTaskToHTML(task);
+        addTaskToArray(task);
+        displayTasks();
 
         //printing contents of task objects
         var str = JSON.stringify(task);
@@ -132,9 +132,8 @@ var popup = function() {
         }
     }
 
-     //Test method to print task details 
-    function printTask(task)
-    {
+    //Test method to print task details 
+    function printTask(task) {
         var tmp = JSON.stringify(task);
         console.log("printing task method \n" + tmp);
     }
@@ -172,8 +171,8 @@ var popup = function() {
 
     }
 
-     //toggle index page with task list
-     function displayTasks() {
+    //toggle index page with task list
+    function displayTasks() {
         console.log("calling displayTasks")
 
         $('#frontPanel').removeClass('hidden');
@@ -213,20 +212,39 @@ var popup = function() {
         chrome.storage.local.get("list", function(result) {
             //console.log(" printing result fron load data" +result);
             //tasks = result;
-            var jsonData = JSON.stringify(result);
+             jsonData = JSON.stringify(result);
+             getTaskObject(jsonData);
             console.log("printing objs in loadData " + jsonData);
             //  tempList = result;
         });
         //return task objects as json data
-        return jsonData;
+        
 
     }
 
 
     //get task object from json object
-    function getTaskObject(jsonObject)
-    {
+    function getTaskObject(jsonObject) {
         
+        console.log("printint tasks from gettask " +jsonObject);
+       var array = JSON.parse(jsonObject);
+        for (var i = 0; i < array.list.length; i++) {
+            var task = array.list[i];
+            var id = task.tId;
+            var name = task.tName;
+            var dueDate = task.tDueDate;
+            var url = task.tUrl;
+            var notes = task.tNotes;
+            var priority = task.tPriority;
+            var notify = task.tNotify;
+            var notifyUrl = task.tNotifyUrl;
+
+            var taskobj = new createTaskObj(id, name, dueDate, url, notes, priority, notify, notifyUrl);
+
+            addTaskToHTML(taskobj);
+            addTaskToArray(taskobj);
+            displayTasks();
+        }
     }
 
     //get values from check boxes 
@@ -335,7 +353,7 @@ var popup = function() {
         //getTaskList();
         console.log("calling loadTaskList")
         var i = 0;
-       for (; i < tasks.length; i++) {
+        for (; i < tasks.length; i++) {
             console.log(tasks[i]);
             addTaskToHTML(tasks[i]);
             addTaskToArray(task[i]);
@@ -346,7 +364,7 @@ var popup = function() {
 
     function Init() {
         loadData();
-       loadTaskList(tasks);
+        // loadTaskList(tasks);
 
     }
     return Init();
