@@ -229,6 +229,7 @@ var popup = function() {
         
     }
 
+    //get values from check boxes 
     function getCheckBoxValue(id) {
         if ($('#' + id).is(':checked')) {
             console.log("true");
@@ -244,6 +245,7 @@ var popup = function() {
 
 
 
+    //reset all form fields after task is saved or cancelled 
     function resetFormFields() {
         console.log("reseting form");
 
@@ -319,6 +321,7 @@ var popup = function() {
     }*/
 
 
+    //test method to clear chrome storage 
     function clearStorage() {
         console.log("clearing storage data");
         chrome.storage.local.clear(function() {
