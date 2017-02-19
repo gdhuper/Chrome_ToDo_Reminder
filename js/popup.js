@@ -302,7 +302,6 @@ var popup = function() {
         });
     }
 
-    //createTask.addEventListener('click', createNewTab);
 
 
     //var name = "time to pay bill";
@@ -319,9 +318,6 @@ var popup = function() {
         alert("alarm went off")
 
     }*/
-
-
-
 
     /*function createNewTab() {
         var createProperties = {
@@ -363,8 +359,9 @@ var popup = function() {
     }
 
     function Init() {
-        loadData();
+       // loadData();
         // loadTaskList(tasks);
+        clearStorage();
 
     }
     return Init();
