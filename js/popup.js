@@ -57,9 +57,6 @@ var popup = function() {
 
     }
 
-
-
-
     //Adding event listeners
     createTask.addEventListener('click', createNewTask);
     calIcon.addEventListener('click', popCal);

@@ -2,230 +2,230 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>To-Do Reminder</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title>To-Do Reminder</title>
 
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-datetimepicker.css">
+  <!-- Bootstrap -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap-datetimepicker.css">
 
-    <link rel="stylesheet" type="text/css" href="css/popup.css">
+  <link rel="stylesheet" type="text/css" href="css/popup.css">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-</head>
+      </head>
 
-<body>
+      <body>
 
-    <!--Index page-->
-    <header class="intro-header">
-        <div class="container-fluid">
+        <!--Index page-->
+        <header class="intro-header">
+          <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-12 col-md-12" id="topTitle">
-                    <div class="site-heading">
-                        <div class="typewriter">
-                            <h2 class="text-info">To-Do Reminder</h2>
-                        </div>
-                        <hr class="small">
-                        <span class="subheading"></span>
-                        <!-- Come up with a subheading-->
-                    </div>
+              <div class="col-lg-12 col-md-12" id="topTitle">
+                <div class="site-heading">
+                  <div class="typewriter">
+                    <h2 class="text-info">To-Do Reminder</h2>
+                  </div>
+                  <hr class="small">
+                  <span class="subheading"></span>
+                  <!-- Come up with a subheading-->
                 </div>
+              </div>
             </div>
-        </div>
-    </header>
+          </div>
+        </header>
 
-    <div class="container-fluid">
-        <div class="row">
+        <div class="container-fluid">
+          <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12" id="frontPanel">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Task</th>
-                            <th>Due By</th>
-                            <th>Priority</th>
-                            <th>
-                                <button type="button" class="btn btn-primary" id="createTask">Create Task</button>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="taskList">
-                        <tr id="hiddenTaskList">
-                            <td colspan="4">No task due at the moment!</td>
-                        </tr>
-                    </tbody>
-                </table>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Task</th>
+                    <th>Due By</th>
+                    <th>Priority</th>
+                    <th>
+                      <button type="button" class="btn btn-primary" id="createTask">Create Task</button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="taskList">
+                  <tr id="hiddenTaskList">
+                    <td colspan="4">No task due at the moment!</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
             <!-- end index page-->
 
             <!--Add new task panel-->
 
             <div class="col-md-12 col-lg-12 col-sm-12 hidden" id="addTask">
-                <h3 class="text text-info">
+              <h3 class="text text-info">
                 Add new task
               </h3>
-                <form class="form-horizontal" id="taskForm">
-                    <div class="form-group">
-                        <label for="inputTaskName" class="col-sm-2 control-label">Remind me about</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputTaskName" placeholder="Pay credit card bill...">
-                        </div>
-                    </div>
-                    <!--Select date and time-->
-                    <div class="form-group">
-                        <label for="inputDueTime" class="col-sm-2 control-label">
-                            on
-                        </label>
-                        <div class="col-sm-10">
-                            <div class="input-group date" id="dueDateTime">
-                                <input type="text" class="form-control" id="inputDueTime">
-                                <span class="input-group-addon">
+              <form class="form-horizontal" id="taskForm">
+                <div class="form-group">
+                  <label for="inputTaskName" class="col-sm-2 control-label">Remind me about</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputTaskName" placeholder="Pay credit card bill...">
+                  </div>
+                </div>
+                <!--Select date and time-->
+                <div class="form-group">
+                  <label for="inputDueTime" class="col-sm-2 control-label">
+                    on
+                  </label>
+                  <div class="col-sm-10">
+                    <div class="input-group date" id="dueDateTime">
+                      <input type="text" class="form-control" id="inputDueTime">
+                      <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar" id="calIcon"></span>
-                                </span>
-                            </div>
-                        </div>
+                      </span>
                     </div>
-                    <!--end select date and time-->
+                  </div>
+                </div>
+                <!--end select date and time-->
 
-                    <div class="form-group">
-                        <label for="basic-url" class="col-sm-2 control-label">URL to open</label>
-                        <div class="col-sm-10" id="urlLinkToOpen">
-                            <div class="input-group" id="urlLink">
-                                <span class="input-group-addon" id="basic-addon3">https://example.com/users/</span>
-                                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                            </div>
-                        </div>
+                <div class="form-group">
+                  <label for="basic-url" class="col-sm-2 control-label">URL to open</label>
+                  <div class="col-sm-10" id="urlLinkToOpen">
+                    <div class="input-group" id="urlLink">
+                      <span class="input-group-addon" id="basic-addon3">https://example.com/users/</span>
+                      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
                     </div>
+                  </div>
+                </div>
 
-                    <div class="form-group">
-                        <label for="notesOnTask" class="col-sm-2 control-label">Notes</label>
-                        <div class="col-sm-10" id="notes">
-                            <textarea id="taskNotes" class="form-control" rows="3" maxlength="300"></textarea>
-                        </div>
+                <div class="form-group">
+                  <label for="notesOnTask" class="col-sm-2 control-label">Notes</label>
+                  <div class="col-sm-10" id="notes">
+                    <textarea id="taskNotes" class="form-control" rows="3" maxlength="300"></textarea>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="priority" class="col-sm-2 control-label">Priority</label>
+                  <div class="col-sm-10">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="pButton">
+                        None <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" id="dropdownMenu">
+                        <li><a href="#">None</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+
+                        <li><a href="#">Low</a>
+                        </li>
+                        <li><a href="#">Medium</a>
+                        </li>
+                        <li><a href="#">High</a>
+                        </li>
+
+                      </ul>
                     </div>
-
-                    <div class="form-group">
-                        <label for="priority" class="col-sm-2 control-label">Priority</label>
-                        <div class="col-sm-10">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="pButton">
-                                    None <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" id="dropdownMenu">
-                                    <li><a href="#">None</a>
-                                    </li>
-                                    <li role="separator" class="divider"></li>
-
-                                    <li><a href="#">Low</a>
-                                    </li>
-                                    <li><a href="#">Medium</a>
-                                    </li>
-                                    <li><a href="#">High</a>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                  </div>
+                </div>
 
 
 
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <label class="checkbox-inline">
-                                <input type="checkbox" id="notifyCheckBox" value="option1"> Notify me
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" id="notifyUrlCheckBox" value="option2"> Notify + Open URL
-                            </label>
-                        </div>
-                    </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <label class="checkbox-inline">
+                      <input type="checkbox" id="notifyCheckBox" value="option1"> Notify me
+                    </label>
+                    <label class="checkbox-inline">
+                      <input type="checkbox" id="notifyUrlCheckBox" value="option2"> Notify + Open URL
+                    </label>
+                  </div>
+                </div>
 
 
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="button" class="btn btn-default" id="saveTask">Save Task</button>
-                            <button type="button" class="btn btn-default" id="cancelSave">Cancel</button>
-                        </div>
-                    </div>
-                </form>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-default" id="saveTask">Save Task</button>
+                    <button type="button" class="btn btn-default" id="cancelSave">Cancel</button>
+                  </div>
+                </div>
+              </form>
             </div>
-        </div>
-        <!--End of Add new Task-->
+          </div>
+          <!--End of Add new Task-->
 
-        <!-- Display a task page-->
-        <div class="col-md-12 col-sm-12 col-lg-12 hidden" id="task-view">
+          <!-- Display a task page-->
+          <div class="col-md-12 col-sm-12 col-lg-12 hidden" id="task-view">
             <h3 class="text text-info">Task Details</h3>
             <dl>
-                <dt>
+              <dt>
                 Remind me about:
               </dt>
-                <dd id="view-task-name">
-                </dd>
+              <dd id="view-task-name">
+              </dd>
 
-                <dt>
+              <dt>
                 on:
               </dt>
-                <dd id="view-task-dueDate">
-                </dd>
+              <dd id="view-task-dueDate">
+              </dd>
 
-                <dt>
+              <dt>
                 URL to Open:
               </dt>
-                <dd id="view-task-url">
-                </dd>
+              <dd id="view-task-url">
+              </dd>
 
-                <dt>
+              <dt>
                 Notes:
               </dt>
-                <dd>
-                    <span id="view-task-notes"></span>
-                </dd>
-                 <dt>
+              <dd>
+                <span id="view-task-notes"></span>
+              </dd>
+              <dt>
                 Priority:
               </dt>
-                <dd>
-                    <span id="view-priority"></span> None
-                </dd>
+              <dd>
+                <span id="view-priority"></span> None
+              </dd>
 
-                <dt>
+              <dt>
                 <div class="form-group">
-                       
-                            <label class="checkbox-inline">
-                                <input type="checkbox" id="notifyCheckBox" value="option1" disabled="" checked=""> Notify me
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" id="notifyUrlCheckBox" value="option2" disabled="" checked=""> Notify + Open URL 
-                            </label>
-                    </div>
+                 
+                  <label class="checkbox-inline">
+                    <input type="checkbox" id="notifyCheckBox" value="option1" disabled="" checked=""> Notify me
+                  </label>
+                  <label class="checkbox-inline">
+                    <input type="checkbox" id="notifyUrlCheckBox" value="option2" disabled="" checked=""> Notify + Open URL 
+                  </label>
+                </div>
               </dt>
             </dl>
+          </div>
+          <!-- end of task description-->
         </div>
-        <!-- end of task description-->
-    </div>
 
 
 
 
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/jquery.min.js"></script>
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="js/jquery.min.js"></script>
 
-    <script src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/moment-with-locales.js"></script>
-    <script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
-    <script type="text/javascript" src="js/popup.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/moment-with-locales.js"></script>
+        <script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
+        <script type="text/javascript" src="js/popup.js"></script>
 
 
-</body>
+      </body>
 
-</html>
+      </html>
