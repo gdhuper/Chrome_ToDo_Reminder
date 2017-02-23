@@ -330,8 +330,6 @@ var popup = function() {
             }
         });
     }*/
-
-
     //test method to clear chrome storage 
     function clearStorage() {
         console.log("clearing storage data");
