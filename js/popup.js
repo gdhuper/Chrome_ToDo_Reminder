@@ -299,14 +299,11 @@ var popup = function() {
         });
     }
 
-
-
     //var name = "time to pay bill";
     /*
     var alarmInfo = {
         when: Date.now() + 1000
     };
-
 
     function setAlarm() {
         // body...
