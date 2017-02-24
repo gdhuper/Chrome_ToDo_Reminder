@@ -84,7 +84,12 @@ var popup = function() {
         var dueDate = inputDueTime.value;
         var UrlToOpen = url.value;
         var notes = taskNotes.value;
-        var pty = p;
+        var pty;
+        if(p == null )
+        {
+            pty =  'None';
+        }
+        
         var nfy = (function() {
 
             if ($('#notifyCheckBox').is(':checked')) {
@@ -144,7 +149,7 @@ var popup = function() {
             "<td>" + task.tDueDate + "</td>" +
             "<td>" + task.tPriority + "</td>" +
             "<td>" +
-            "<a href='#' class='edit'>Edit </a>" +
+            "<a href='#' id='" + task.tId + "' class='edit'>Edit </a>" +
             "<a href='#' class='del'>Delete</a>" +
             "</td>" +
             "</tr>");
@@ -225,6 +230,7 @@ var popup = function() {
         
         console.log("printint tasks from gettask " +jsonObject);
        var array = JSON.parse(jsonObject);
+        if(array.list !=  undefined){
         for (var i = 0; i < array.list.length; i++) {
             var task = array.list[i];
             var id = task.tId;
@@ -241,6 +247,13 @@ var popup = function() {
             addTaskToHTML(taskobj);
             addTaskToArray(taskobj);
             displayTasks();
+        }
+
+        }
+        else
+        {
+            console.log("No tasks to load!");
+            return;
         }
     }
 
@@ -351,9 +364,9 @@ var popup = function() {
     }
 
     function Init() {
-       // loadData();
-        // loadTaskList(tasks);
-        clearStorage();
+       loadData();
+         loadTaskList(tasks);
+        //clearStorage();
 
     }
     return Init();
