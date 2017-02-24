@@ -109,8 +109,8 @@ var popup = function() {
 
         var task = new createTaskObj(id, name, dueDate, UrlToOpen, notes, pty, nfy, nfyUrl);
 
-        //if(validateTask)
-        //{ 
+        if(validateTask(task))
+        { 
         printTask(task);
         validateTask(task);
         addTaskToHTML(task);
@@ -121,7 +121,7 @@ var popup = function() {
         var str = JSON.stringify(task);
 
         console.log("printing task details :" + str);
-        //  }
+         }
 
     }
 
@@ -129,9 +129,37 @@ var popup = function() {
     function validateTask(task) {
         if (task == null) {
             console.log("Empty Fields! Please input a task");
+            return false;
         } else {
-            console.log("Non empty fields");
+            if(validName(task.tName) && validDueDate(task.tDueDate) && validUrl(task.tUrl))
+            {
+                console.log("all fields validated");
+                return true;
+            }
+            console.log("Non empty fields"); // for debugging 
         }
+    }
+
+    //check if name != empty
+    function validName(name)
+    {
+        console.log("Calling validName");
+        return true;
+
+    }
+
+    function validDueDate(dueTime)
+    {
+        console.log("Calling validDueDate");
+        return true;
+
+
+    }
+    function validUrl(url)
+    {
+        console.log("Calling validUrl");
+        return true;
+
     }
 
     //Test method to print task details 
