@@ -52,9 +52,6 @@ var popup = function() {
         this.tPriority = priority;
         this.tNotify = notify;
         this.tNotifyUrl = notifyUrl;
-
-
-
     }
 
     //Adding event listeners
@@ -76,6 +73,7 @@ var popup = function() {
 
     });
 
+    //creates and saves a task in the storage 
     function saveTask() {
         console.log("calling save task");
 
@@ -147,7 +145,7 @@ var popup = function() {
         return true;
 
     }
-
+    //check if date and time format is valid 
     function validDueDate(dueTime)
     {
         console.log("Calling validDueDate");
@@ -155,6 +153,8 @@ var popup = function() {
 
 
     }
+
+    //to validate url format 
     function validUrl(url)
     {
         console.log("Calling validUrl");
@@ -173,6 +173,7 @@ var popup = function() {
     function addTaskToHTML(task) {
         $('#hiddenTaskList').addClass('hidden');
         $('#taskList').append("<tr id='" + task.tId + "'>" +
+             "<td>" + task.tId + "</td>" +
             "<td><a href='#'>" + task.tName + "</a></td>" +
             "<td>" + task.tDueDate + "</td>" +
             "<td>" + task.tPriority + "</td>" +
@@ -261,7 +262,7 @@ var popup = function() {
         if(array.list !=  undefined){
         for (var i = 0; i < array.list.length; i++) {
             var task = array.list[i];
-            var id = task.tId;
+            var tid = task.tId;
             var name = task.tName;
             var dueDate = task.tDueDate;
             var url = task.tUrl;
@@ -270,19 +271,22 @@ var popup = function() {
             var notify = task.tNotify;
             var notifyUrl = task.tNotifyUrl;
 
-            var taskobj = new createTaskObj(id, name, dueDate, url, notes, priority, notify, notifyUrl);
+            var taskobj = new createTaskObj(tid, name, dueDate, url, notes, priority, notify, notifyUrl);
 
             addTaskToHTML(taskobj);
             addTaskToArray(taskobj);
             displayTasks();
-        }
+            
 
+        }
+        index.id = array.list.length;
         }
         else
         {
             console.log("No tasks to load!");
             return;
         }
+
     }
 
     //get values from check boxes 
@@ -316,10 +320,7 @@ var popup = function() {
         var option = 'None' + ' <span class="caret"></span>';
         $('.dropdown-menu').closest('.btn-group').find('.dropdown-toggle').html(option);
 
-
     }
-
-
 
 
     //toggle create task form 
@@ -336,7 +337,7 @@ var popup = function() {
     function popCal() {
         console.log("picking time");
         $('#dueDateTime').datetimepicker({
-            format: 'YYYY/MM/DD hh:mm A'
+            format: "MM/DD/'YY  hh:mm A"
         });
     }
 
@@ -387,13 +388,15 @@ var popup = function() {
             addTaskToHTML(tasks[i]);
             addTaskToArray(task[i]);
             console.log("printing tasks" + tasks[i]);
+            id = id + 1;
+            
         }
         displayTasks();
     }
 
     function Init() {
-       loadData();
-         loadTaskList(tasks);
+      loadData();
+      //  loadTaskList(tasks);
         //clearStorage();
 
     }
