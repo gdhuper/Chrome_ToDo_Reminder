@@ -72,7 +72,6 @@ var popup = function() {
 
 
     });
-
     //creates and saves a task in the storage 
     function saveTask() {
         console.log("calling save task");
