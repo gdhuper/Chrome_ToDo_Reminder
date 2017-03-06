@@ -17,11 +17,10 @@ var popup = function() {
     //var ds = require('datastructures-js');
     //var pQueue = ds.priorityQueue();
 
-
+    var id = 0;
     /*Index page variables*/
     var index = document,
         tasks = [],
-        id = 0,
         idxHeading = index.getElementById('topTitle'),
         createTask = index.getElementById('createTask'),
         front = index.getElementById('frontPanel'),
@@ -275,10 +274,12 @@ var popup = function() {
             addTaskToHTML(taskobj);
             addTaskToArray(taskobj);
             displayTasks();
+
+            id += 1;
             
 
         }
-        index.id = array.list.length;
+        
         }
         else
         {
@@ -378,7 +379,7 @@ var popup = function() {
     }
 
     //load all tasks on startup 
-    function loadTaskList(tasks) {
+   /* function loadTaskList(tasks) {
         //getTaskList();
         console.log("calling loadTaskList")
         var i = 0;
@@ -391,12 +392,11 @@ var popup = function() {
             
         }
         displayTasks();
-    }
+    }*/
 
     function Init() {
-      loadData();
-      //  loadTaskList(tasks);
-        //clearStorage();
+    loadData();
+     //   clearStorage();
 
     }
     return Init();
