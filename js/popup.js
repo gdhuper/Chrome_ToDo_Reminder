@@ -3,13 +3,13 @@ var popup = function() {
 
     //defining global variables
     var tId = 0,
-        tName = null,
-        tDueDate = null,
-        tUrl = null,
-        tNotes = null,
-        tPriority = null,
-        tNotify = false,
-        tNotifyUrl = false;
+    tName = null,
+    tDueDate = null,
+    tUrl = null,
+    tNotes = null,
+    tPriority = null,
+    tNotify = false,
+    tNotifyUrl = false;
 
     var p = null; //to save priority from dropdown button
 
@@ -20,24 +20,24 @@ var popup = function() {
     var id = 0;
     /*Index page variables*/
     var index = document,
-        tasks = [],
-        idxHeading = index.getElementById('topTitle'),
-        createTask = index.getElementById('createTask'),
-        front = index.getElementById('frontPanel'),
-        taskList = index.getElementById('taskList'),
-        addTask = index.getElementById('addTask');
+    tasks = [],
+    idxHeading = index.getElementById('topTitle'),
+    createTask = index.getElementById('createTask'),
+    front = index.getElementById('frontPanel'),
+    taskList = index.getElementById('taskList'),
+    addTask = index.getElementById('addTask');
 
     /*add task variables*/
     var taskName = index.getElementById('inputTaskName'),
-        inputDueTime = index.getElementById('inputDueTime'),
-        url = index.getElementById('basic-url'),
-        taskNotes = index.getElementById('taskNotes'),
-        priority = index.getElementById('pButton'),
-        notify = index.getElementById('notifyCheckBox'),
-        notifyUrl = index.getElementById('notifyUrlCheckBox'),
-        calIcon = index.getElementById('calIcon'),
-        cancelButton = index.getElementById('cancelSave'),
-        saveButtton = index.getElementById('saveTask');
+    inputDueTime = index.getElementById('inputDueTime'),
+    url = index.getElementById('basic-url'),
+    taskNotes = index.getElementById('taskNotes'),
+    priority = index.getElementById('pButton'),
+    notify = index.getElementById('notifyCheckBox'),
+    notifyUrl = index.getElementById('notifyUrlCheckBox'),
+    calIcon = index.getElementById('calIcon'),
+    cancelButton = index.getElementById('cancelSave'),
+    saveButtton = index.getElementById('saveTask');
 
 
     // creating task object (constructor)
@@ -71,6 +71,7 @@ var popup = function() {
 
 
     });
+
     //creates and saves a task in the storage 
     function saveTask() {
         console.log("calling save task");
@@ -84,6 +85,7 @@ var popup = function() {
         if (p == null) {
             pty = 'None';
         }
+        else pty = p;
 
         var nfy = (function() {
 
@@ -164,7 +166,7 @@ var popup = function() {
     //adds task to index page
     function addTaskToHTML(task) {
         $('#hiddenTaskList').addClass('hidden');
-        $('#taskList').append("<tr id='" + task.tId + "'>" +
+        $('#taskList').append("<tr id='task" + task.tId + "'>" +
             "<td>" + task.tId + "</td>" +
             "<td><a href='#'>" + task.tName + "</a></td>" +
             "<td>" + task.tDueDate + "</td>" +
@@ -194,27 +196,78 @@ var popup = function() {
 
         var delBtn = document.getElementById("del-" + id);
         delBtn.addEventListener("click", function() {
-            deleteTask(id)
+            bootbox.confirm({
+            message: "Delete Task ?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-danger'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-success'
+                }
+            },
+            callback: function (result) {
+                if(result)
+                deleteTask(id);
+                else console.log("dont delete task"); //debugging 
+            }
         });
+            
+        });
+
     }
 
     //show edit form
     function showEditForm(id) {
         console.log("Calling showEditForm task Id =" + id);
+
     }
 
     //delete task and updates id (maybe)
     function deleteTask(id) {
         console.log("calling del task id=" + id);
+        var task = getTaskFromList(id);
+        console.log("deleting task=" + task);
+        //deleteTaskfromList(task); //delete task from array
+        deleteTaskfromHTML(task.tId); //delete task from HTML page
+        //updateStorage(); //
 
     }
 
+    function deleteTaskfromHTML(taskId)
+    {
+        
+        var parent = document.getElementById("taskList");
+        var child = document.getElementById("task" + taskId);
+        var tempId = "#task" + taskId;
+        $(tempId).remove();
+        console.log("parent " + parent);
+        console.log("child" + child);
+       // console.log("task removed from html");
+    }
 
+    //Gets a task from list with a given id
     function getTaskFromList(id) {
 
+        var tempTask;
+        for(i = 0; i < tasks.length; i++)
+        {
+            if(tasks[i].tId == id)
+            {
+                tempTask = tasks[i];
+                
+                console.log("deleting task " +tasks[i] + " from list");
+                tasks.splice((id-1), 1);
 
-
+            }
+        }
+        if(tempTask != null) return tempTask;
     }
+
+
+
 
     //adds task to array list 
     function addTaskToArray(task) {
@@ -332,7 +385,6 @@ var popup = function() {
     //reset all form fields after task is saved or cancelled 
     function resetFormFields() {
         console.log("reseting form");
-
         //Reseting form input fields
         document.getElementById("taskForm").reset();
 
@@ -418,9 +470,9 @@ var popup = function() {
          displayTasks();
      }*/
 
-    function Init() {
+     function Init() {
         loadData();
-        //   clearStorage();
+       //  clearStorage();
 
     }
     return Init();
