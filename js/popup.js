@@ -81,11 +81,10 @@ var popup = function() {
         var UrlToOpen = url.value;
         var notes = taskNotes.value;
         var pty;
-        if(p == null )
-        {
-            pty =  'None';
+        if (p == null) {
+            pty = 'None';
         }
-        
+
         var nfy = (function() {
 
             if ($('#notifyCheckBox').is(':checked')) {
@@ -105,19 +104,18 @@ var popup = function() {
 
         var task = new createTaskObj(id, name, dueDate, UrlToOpen, notes, pty, nfy, nfyUrl);
 
-        if(validateTask(task))
-        { 
-        printTask(task);
-        validateTask(task);
-        addTaskToHTML(task);
-        addTaskToArray(task);
-        displayTasks();
+        if (validateTask(task)) {
+            printTask(task);
+            validateTask(task);
+            addTaskToHTML(task);
+            addTaskToArray(task);
+            displayTasks();
 
-        //printing contents of task objects
-        var str = JSON.stringify(task);
+            //printing contents of task objects
+            var str = JSON.stringify(task);
 
-        console.log("printing task details :" + str);
-         }
+            console.log("printing task details :" + str);
+        }
 
     }
 
@@ -127,8 +125,7 @@ var popup = function() {
             console.log("Empty Fields! Please input a task");
             return false;
         } else {
-            if(validName(task.tName) && validDueDate(task.tDueDate) && validUrl(task.tUrl))
-            {
+            if (validName(task.tName) && validDueDate(task.tDueDate) && validUrl(task.tUrl)) {
                 console.log("all fields validated");
                 return true;
             }
@@ -137,15 +134,13 @@ var popup = function() {
     }
 
     //check if name != empty
-    function validName(name)
-    {
+    function validName(name) {
         console.log("Calling validName");
         return true;
 
     }
     //check if date and time format is valid 
-    function validDueDate(dueTime)
-    {
+    function validDueDate(dueTime) {
         console.log("Calling validDueDate");
         return true;
 
@@ -153,8 +148,7 @@ var popup = function() {
     }
 
     //to validate url format 
-    function validUrl(url)
-    {
+    function validUrl(url) {
         console.log("Calling validUrl");
         return true;
 
@@ -171,7 +165,7 @@ var popup = function() {
     function addTaskToHTML(task) {
         $('#hiddenTaskList').addClass('hidden');
         $('#taskList').append("<tr id='" + task.tId + "'>" +
-             "<td>" + task.tId + "</td>" +
+            "<td>" + task.tId + "</td>" +
             "<td><a href='#'>" + task.tName + "</a></td>" +
             "<td>" + task.tDueDate + "</td>" +
             "<td>" + task.tPriority + "</td>" +
@@ -192,26 +186,35 @@ var popup = function() {
 
     }
 
-    bindEventsToEditDel(id)
-    {
-        var editBtn = document.getElementById("edit-"+id);
-        editBtn.addEventListener("click", function(){showEditForm(id)});
+    function bindEventsToEditDel(id) {
+        var editBtn = document.getElementById("edit-" + id);
+        editBtn.addEventListener("click", function() {
+            showEditForm(id)
+        });
 
-        var delBtn = document.getElementById("del-"+id);
-        delBtn.addEventListener("click", function(){deleteTask(id)});
+        var delBtn = document.getElementById("del-" + id);
+        delBtn.addEventListener("click", function() {
+            deleteTask(id)
+        });
+    }
+
+    //show edit form
+    function showEditForm(id) {
+        console.log("Calling showEditForm task Id =" + id);
+    }
+
+    //delete task and updates id (maybe)
+    function deleteTask(id) {
+        console.log("calling del task id=" + id);
+
     }
 
 
-    function showEditForm(id)
-    {
-        //show edit form
+    function getTaskFromList(id) {
+
+
+
     }
-
-
-    function deleteTask(id)
-    {
-        //delete task and updates id (maybe)
-    }   
 
     //adds task to array list 
     function addTaskToArray(task) {
@@ -264,48 +267,46 @@ var popup = function() {
         chrome.storage.local.get("list", function(result) {
             //console.log(" printing result fron load data" +result);
             //tasks = result;
-             jsonData = JSON.stringify(result);
-             getTaskObject(jsonData);
+            jsonData = JSON.stringify(result);
+            getTaskObject(jsonData);
             console.log("printing objs in loadData " + jsonData);
             //  tempList = result;
         });
         //return task objects as json data
-        
+
 
     }
 
 
     //get task object from json object
     function getTaskObject(jsonObject) {
-        
-        console.log("printint tasks from gettask " +jsonObject);
-       var array = JSON.parse(jsonObject);
-        if(array.list !=  undefined){
-        for (var i = 0; i < array.list.length; i++) {
-            var task = array.list[i];
-            var tid = task.tId;
-            var name = task.tName;
-            var dueDate = task.tDueDate;
-            var url = task.tUrl;
-            var notes = task.tNotes;
-            var priority = task.tPriority;
-            var notify = task.tNotify;
-            var notifyUrl = task.tNotifyUrl;
 
-            var taskobj = new createTaskObj(tid, name, dueDate, url, notes, priority, notify, notifyUrl);
+        console.log("printint tasks from gettask " + jsonObject);
+        var array = JSON.parse(jsonObject);
+        if (array.list != undefined) {
+            for (var i = 0; i < array.list.length; i++) {
+                var task = array.list[i];
+                var tid = task.tId;
+                var name = task.tName;
+                var dueDate = task.tDueDate;
+                var url = task.tUrl;
+                var notes = task.tNotes;
+                var priority = task.tPriority;
+                var notify = task.tNotify;
+                var notifyUrl = task.tNotifyUrl;
 
-            addTaskToHTML(taskobj);
-            addTaskToArray(taskobj);
-            displayTasks();
+                var taskobj = new createTaskObj(tid, name, dueDate, url, notes, priority, notify, notifyUrl);
 
-            id += 1;
-            
+                addTaskToHTML(taskobj);
+                addTaskToArray(taskobj);
+                displayTasks();
 
-        }
-        
-        }
-        else
-        {
+                id += 1;
+
+
+            }
+
+        } else {
             console.log("No tasks to load!");
             return;
         }
@@ -402,24 +403,24 @@ var popup = function() {
     }
 
     //load all tasks on startup 
-   /* function loadTaskList(tasks) {
-        //getTaskList();
-        console.log("calling loadTaskList")
-        var i = 0;
-        for (; i < tasks.length; i++) {
-            console.log(tasks[i]);
-            addTaskToHTML(tasks[i]);
-            addTaskToArray(task[i]);
-            console.log("printing tasks" + tasks[i]);
-            id = id + 1;
-            
-        }
-        displayTasks();
-    }*/
+    /* function loadTaskList(tasks) {
+         //getTaskList();
+         console.log("calling loadTaskList")
+         var i = 0;
+         for (; i < tasks.length; i++) {
+             console.log(tasks[i]);
+             addTaskToHTML(tasks[i]);
+             addTaskToArray(task[i]);
+             console.log("printing tasks" + tasks[i]);
+             id = id + 1;
+             
+         }
+         displayTasks();
+     }*/
 
     function Init() {
-    loadData();
-     //   clearStorage();
+        loadData();
+        //   clearStorage();
 
     }
     return Init();
