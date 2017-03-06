@@ -176,10 +176,13 @@ var popup = function() {
             "<td>" + task.tDueDate + "</td>" +
             "<td>" + task.tPriority + "</td>" +
             "<td>" +
-            "<a href='#' id='" + task.tId + "' class='edit'>Edit </a>" +
-            "<a href='#' class='del'>Delete</a>" +
+            "<a href='#' id='" + "edit-" + task.tId + "' class='edit'>Edit </a>" +
+            "<a href='#' id='" + "del-" + task.tId + "' class='del'>Delete</a>" +
             "</td>" +
             "</tr>");
+
+
+        bindEventsToEditDel(task.tId);
 
         //reset form after appending task to list
         resetFormFields();
@@ -189,6 +192,26 @@ var popup = function() {
 
     }
 
+    bindEventsToEditDel(id)
+    {
+        var editBtn = document.getElementById("edit-"+id);
+        editBtn.addEventListener("click", function(){showEditForm(id)});
+
+        var delBtn = document.getElementById("del-"+id);
+        delBtn.addEventListener("click", function(){deleteTask(id)});
+    }
+
+
+    function showEditForm(id)
+    {
+        //show edit form
+    }
+
+
+    function deleteTask(id)
+    {
+        //delete task and updates id (maybe)
+    }   
 
     //adds task to array list 
     function addTaskToArray(task) {
