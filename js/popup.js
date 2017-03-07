@@ -238,14 +238,15 @@ var popup = function() {
 
     function deleteTaskfromHTML(taskId)
     {
-        
+        console.log("removing task from table");
         var parent = document.getElementById("taskList");
         var child = document.getElementById("task" + taskId);
         var tempId = "#task" + taskId;
         $(tempId).remove();
-        console.log("parent " + parent);
-        console.log("child" + child);
-       // console.log("task removed from html");
+       // console.log("deleting task " +tasks[i] + " from list");
+       deleteandReorderTasks(taskId);
+        
+        
     }
 
     //Gets a task from list with a given id
@@ -257,13 +258,25 @@ var popup = function() {
             if(tasks[i].tId == id)
             {
                 tempTask = tasks[i];
-                
-                console.log("deleting task " +tasks[i] + " from list");
-                tasks.splice((id-1), 1);
+                return tempTask;
+               
 
             }
         }
-        if(tempTask != null) return tempTask;
+        
+    }
+
+    function deleteandReorderTasks(index)
+    {   
+        console.log("deleting and reordering")
+         tasks.splice((index-1), 1);
+         for( i = 0; i < tasks.length; i++)
+         {
+            var tempId = tasks[i].tId;
+            document.getElementById('task'+tempId).setAttribute('id', 'task'+(i+1));
+            tasks[i].tId = i+1;
+         }
+         saveTaskList(tasks);
     }
 
 
@@ -454,25 +467,9 @@ var popup = function() {
         });
     }
 
-    //load all tasks on startup 
-    /* function loadTaskList(tasks) {
-         //getTaskList();
-         console.log("calling loadTaskList")
-         var i = 0;
-         for (; i < tasks.length; i++) {
-             console.log(tasks[i]);
-             addTaskToHTML(tasks[i]);
-             addTaskToArray(task[i]);
-             console.log("printing tasks" + tasks[i]);
-             id = id + 1;
-             
-         }
-         displayTasks();
-     }*/
-
      function Init() {
         loadData();
-       //  clearStorage();
+       // clearStorage();
 
     }
     return Init();
