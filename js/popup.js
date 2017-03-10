@@ -68,8 +68,6 @@ var popup = function() {
         p = text;
         var option = text + ' <span class="caret"></span>';
         $(this).closest('.btn-group').find('.dropdown-toggle').html(option);
-
-
     });
 
     //creates and saves a task in the storage 
@@ -472,4 +470,4 @@ var popup = function() {
 document.addEventListener('DOMContentLoaded', function() {
     popup();
 
-});
+});ter
