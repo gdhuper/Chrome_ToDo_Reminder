@@ -13,7 +13,6 @@ var popup = function() {
 
     var p = null; //to save priority from dropdown button
 
-
     //var ds = require('datastructures-js');
     //var pQueue = ds.priorityQueue();
 
