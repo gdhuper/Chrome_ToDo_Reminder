@@ -1,17 +1,19 @@
+
 var popup = function() {
     //  "use strict"
 
     //defining global variables
     var tId = 0,
-        tName = null,
-        tDueDate = null,
-        tUrl = null,
-        tNotes = null,
-        tPriority = null,
-        tNotify = false,
-        tNotifyUrl = false;
+    tName = null,
+    tDueDate = null,
+    tUrl = null,
+    tNotes = null,
+    tPriority = null,
+    tNotify = false,
+    tNotifyUrl = false;
 
     var p = null; //to save priority from dropdown button
+
 
     //var ds = require('datastructures-js');
     //var pQueue = ds.priorityQueue();
@@ -19,24 +21,24 @@ var popup = function() {
     var id = 0;
     /*Index page variables*/
     var index = document,
-        tasks = [],
-        idxHeading = index.getElementById('topTitle'),
-        createTask = index.getElementById('createTask'),
-        front = index.getElementById('frontPanel'),
-        taskList = index.getElementById('taskList'),
-        addTask = index.getElementById('addTask');
+    tasks = [],
+    idxHeading = index.getElementById('topTitle'),
+    createTask = index.getElementById('createTask'),
+    front = index.getElementById('frontPanel'),
+    taskList = index.getElementById('taskList'),
+    addTask = index.getElementById('addTask');
 
     /*add task variables*/
     var taskName = index.getElementById('inputTaskName'),
-        inputDueTime = index.getElementById('inputDueTime'),
-        url = index.getElementById('basic-url'),
-        taskNotes = index.getElementById('taskNotes'),
-        priority = index.getElementById('pButton'),
-        notify = index.getElementById('notifyCheckBox'),
-        notifyUrl = index.getElementById('notifyUrlCheckBox'),
-        calIcon = index.getElementById('calIcon'),
-        cancelButton = index.getElementById('cancelSave'),
-        saveButtton = index.getElementById('saveTask');
+    inputDueTime = index.getElementById('inputDueTime'),
+    url = index.getElementById('basic-url'),
+    taskNotes = index.getElementById('taskNotes'),
+    priority = index.getElementById('pButton'),
+    notify = index.getElementById('notifyCheckBox'),
+    notifyUrl = index.getElementById('notifyUrlCheckBox'),
+    calIcon = index.getElementById('calIcon'),
+    cancelButton = index.getElementById('cancelSave'),
+    saveButtton = index.getElementById('saveTask');
 
 
     // creating task object (constructor)
@@ -67,6 +69,8 @@ var popup = function() {
         p = text;
         var option = text + ' <span class="caret"></span>';
         $(this).closest('.btn-group').find('.dropdown-toggle').html(option);
+
+
     });
 
     //creates and saves a task in the storage 
@@ -81,7 +85,8 @@ var popup = function() {
         var pty;
         if (p == null) {
             pty = 'None';
-        } else pty = p;
+        }
+        else pty = p;
 
         var nfy = (function() {
 
@@ -193,24 +198,24 @@ var popup = function() {
         var delBtn = document.getElementById("del-" + id);
         delBtn.addEventListener("click", function() {
             bootbox.confirm({
-                message: "Delete Task ?",
-                buttons: {
-                    confirm: {
-                        label: 'Yes',
-                        className: 'btn-danger'
-                    },
-                    cancel: {
-                        label: 'No',
-                        className: 'btn-success'
-                    }
+            message: "Delete Task ?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-danger'
                 },
-                callback: function(result) {
-                    if (result)
-                        deleteTask(id);
-                    else console.log("dont delete task"); //debugging 
+                cancel: {
+                    label: 'No',
+                    className: 'btn-success'
                 }
-            });
-
+            },
+            callback: function (result) {
+                if(result)
+                deleteTask(id);
+                else console.log("dont delete task"); //debugging 
+            }
+        });
+            
         });
 
     }
@@ -232,42 +237,48 @@ var popup = function() {
 
     }
 
-    function deleteTaskfromHTML(taskId) {
+    function deleteTaskfromHTML(taskId)
+    {
         console.log("removing task from table");
         var parent = document.getElementById("taskList");
         var child = document.getElementById("task" + taskId);
         var tempId = "#task" + taskId;
         $(tempId).remove();
-        // console.log("deleting task " +tasks[i] + " from list");
-        deleteandReorderTasks(taskId);
-
-
+       // console.log("deleting task " +tasks[i] + " from list");
+       deleteandReorderTasks(taskId);
+        
+        
     }
 
     //Gets a task from list with a given id
     function getTaskFromList(id) {
 
         var tempTask;
-        for (i = 0; i < tasks.length; i++) {
-            if (tasks[i].tId == id) {
+        for(i = 0; i < tasks.length; i++)
+        {
+            if(tasks[i].tId == id)
+            {
                 tempTask = tasks[i];
                 return tempTask;
-
+               
 
             }
         }
-
+        
     }
 
-    function deleteandReorderTasks(index) {
+    function deleteandReorderTasks(index)
+    {   
         console.log("deleting and reordering")
-        tasks.splice((index - 1), 1);
-        for (i = 0; i < tasks.length; i++) {
+         tasks.splice((index-1), 1);
+         for( i = 0; i < tasks.length; i++)
+         {
             var tempId = tasks[i].tId;
-            document.getElementById('task' + tempId).setAttribute('id', 'task' + (i + 1));
-            tasks[i].tId = i + 1;
-        }
-        saveTaskList(tasks);
+            document.getElementById('task'+tempId).setAttribute('id', 'task'+(i+1));
+            tasks[i].tId = i+1;
+         }
+         saveTaskList(tasks);
+         if(tasks.length == 0) $('#hiddenTaskList').removeClass('hidden');
     }
 
 
@@ -426,13 +437,11 @@ var popup = function() {
     var alarmInfo = {
         when: Date.now() + 1000
     };
-
     function setAlarm() {
         // body...
         alert("setting up alarm");
         chrome.alarms.create(name, alarmInfo);
         alert("alarm went off")
-
     }*/
 
     /*function createNewTab() {
@@ -458,15 +467,17 @@ var popup = function() {
         });
     }
 
-    function Init() {
+     function Init() {
         loadData();
-        // clearStorage();
+       //clearStorage();
+
     }
     return Init();
+
 
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     popup();
 
-});ter
+});
