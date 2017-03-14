@@ -70,7 +70,6 @@ var popup = function() {
         var option = text + ' <span class="caret"></span>';
         $(this).closest('.btn-group').find('.dropdown-toggle').html(option);
 
-
     });
 
     //creates and saves a task in the storage 
@@ -87,15 +86,12 @@ var popup = function() {
             pty = 'None';
         }
         else pty = p;
-
         var nfy = (function() {
-
             if ($('#notifyCheckBox').is(':checked')) {
                 return true;
             } else {
                 return false;
             }
-
         })();
         var nfyUrl = (function() {
             if ($('#notifyUrlCheckBox').is(':checked')) {
@@ -259,6 +255,8 @@ var popup = function() {
             if(tasks[i].tId == id)
             {
                 tempTask = tasks[i];
+                console.log(JSON.stringify(tempTask));
+
                 return tempTask;
                
 
@@ -278,7 +276,11 @@ var popup = function() {
             tasks[i].tId = i+1;
          }
          saveTaskList(tasks);
-         if(tasks.length == 0) $('#hiddenTaskList').removeClass('hidden');
+         if(tasks.length == 0)
+         { 
+            id = 0;
+            $('#hiddenTaskList').removeClass('hidden');
+        }  
     }
 
 
@@ -468,7 +470,7 @@ var popup = function() {
     }
 
      function Init() {
-        loadData();
+       loadData();
        //clearStorage();
 
     }
