@@ -1,16 +1,15 @@
-
 var popup = function() {
     //  "use strict"
 
     //defining global variables
     var tId = 0,
-    tName = null,
-    tDueDate = null,
-    tUrl = null,
-    tNotes = null,
-    tPriority = null,
-    tNotify = false,
-    tNotifyUrl = false;
+        tName = null,
+        tDueDate = null,
+        tUrl = null,
+        tNotes = null,
+        tPriority = null,
+        tNotify = false,
+        tNotifyUrl = false;
 
     var p = null; //to save priority from dropdown button
 
@@ -21,24 +20,24 @@ var popup = function() {
     var id = 0;
     /*Index page variables*/
     var index = document,
-    tasks = [],
-    idxHeading = index.getElementById('topTitle'),
-    createTask = index.getElementById('createTask'),
-    front = index.getElementById('frontPanel'),
-    taskList = index.getElementById('taskList'),
-    addTask = index.getElementById('addTask');
+        tasks = [],
+        idxHeading = index.getElementById('topTitle'),
+        createTask = index.getElementById('createTask'),
+        front = index.getElementById('frontPanel'),
+        taskList = index.getElementById('taskList'),
+        addTask = index.getElementById('addTask');
 
     /*add task variables*/
     var taskName = index.getElementById('inputTaskName'),
-    inputDueTime = index.getElementById('inputDueTime'),
-    url = index.getElementById('basic-url'),
-    taskNotes = index.getElementById('taskNotes'),
-    priority = index.getElementById('pButton'),
-    notify = index.getElementById('notifyCheckBox'),
-    notifyUrl = index.getElementById('notifyUrlCheckBox'),
-    calIcon = index.getElementById('calIcon'),
-    cancelButton = index.getElementById('cancelSave'),
-    saveButtton = index.getElementById('saveTask');
+        inputDueTime = index.getElementById('inputDueTime'),
+        url = index.getElementById('basic-url'),
+        taskNotes = index.getElementById('taskNotes'),
+        priority = index.getElementById('pButton'),
+        notify = index.getElementById('notifyCheckBox'),
+        notifyUrl = index.getElementById('notifyUrlCheckBox'),
+        calIcon = index.getElementById('calIcon'),
+        cancelButton = index.getElementById('cancelSave'),
+        saveButtton = index.getElementById('saveTask');
 
 
     // creating task object (constructor)
@@ -84,8 +83,7 @@ var popup = function() {
         var pty;
         if (p == null) {
             pty = 'None';
-        }
-        else pty = p;
+        } else pty = p;
         var nfy = (function() {
             if ($('#notifyCheckBox').is(':checked')) {
                 return true;
@@ -169,8 +167,8 @@ var popup = function() {
             "<td>" + task.tDueDate + "</td>" +
             "<td>" + task.tPriority + "</td>" +
             "<td>" +
-            "<a href='#' id='" + "edit-" + task.tId + "' class='edit'>Edit </a>" +
-            "<a href='#' id='" + "del-" + task.tId + "' class='del'>Delete</a>" +
+            "<a href='#' id='edit-" + task.tId + "' class='edit'>Edit </a>" +
+            "<a href='#' id='del-" + task.tId + "' class='del'>Delete</a>" +
             "</td>" +
             "</tr>");
 
@@ -194,24 +192,24 @@ var popup = function() {
         var delBtn = document.getElementById("del-" + id);
         delBtn.addEventListener("click", function() {
             bootbox.confirm({
-            message: "Delete Task ?",
-            buttons: {
-                confirm: {
-                    label: 'Yes',
-                    className: 'btn-danger'
+                message: "Delete Task ?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-danger'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-success'
+                    }
                 },
-                cancel: {
-                    label: 'No',
-                    className: 'btn-success'
+                callback: function(result) {
+                    if (result)
+                        deleteTask(id);
+                    else console.log("dont delete task"); //debugging 
                 }
-            },
-            callback: function (result) {
-                if(result)
-                deleteTask(id);
-                else console.log("dont delete task"); //debugging 
-            }
-        });
-            
+            });
+
         });
 
     }
@@ -221,6 +219,14 @@ var popup = function() {
         console.log("Calling showEditForm task Id =" + id);
 
     }
+
+   /* function tempDel(e)
+    {
+        e.preventDefault();
+        var _this = this;
+        curId = $(_this).parents('tr').attr('t-id');
+        $(_this).parents('tr').remove();
+    }*/
 
     //delete task and updates id (maybe)
     function deleteTask(id) {
@@ -234,64 +240,88 @@ var popup = function() {
 
     }
 
-    function deleteTaskfromHTML(taskId)
-    {
+    function deleteTaskfromHTML(taskId) {
         console.log("removing task from table");
         var parent = document.getElementById("taskList");
         var child = document.getElementById("task" + taskId);
         var tempId = "#task" + taskId;
         console.log("Removing task from html: id  " + taskId)
         $(tempId).remove();
-       // console.log("deleting task " +tasks[i] + " from list");
-       deleteandReorderTasks(taskId);
-        
-        
+        // console.log("deleting task " +tasks[i] + " from list");
+        deleteandReorderTasks(taskId);
+
+
     }
 
     //Gets a task from list with a given id
     function getTaskFromList(id) {
 
         var tempTask;
-        for(i = 0; i < tasks.length; i++)
-        {
-            if(tasks[i].tId == id)
-            {
+        for (i = 0; i < tasks.length; i++) {
+            if (tasks[i].tId == id) {
                 tempTask = tasks[i];
                 console.log(JSON.stringify(tempTask));
                 return tempTask;
-               
+
             }
         }
-        
+
     }
 
 
     // Fix id in for loop
-    function deleteandReorderTasks(index)
-    {   
+    function deleteandReorderTasks(index) {
         console.log("deleting and reordering")
-         tasks.splice((index-1), 1);
-          if(tasks.length == 0)
-         { 
+        tasks.splice((index - 1), 1);
+        id = tasks.length;
+
+        if (tasks.length == 0) {
             id = 0;
             $('#hiddenTaskList').removeClass('hidden');
             saveTaskList(tasks);
-
             return;
-        }  
-        id = tasks.length;
-         
-         //if elements in array reorder them 
-         for( i = 0; i < tasks.length; i++)
-         {
-            var tempId = tasks[i].tId;
-        document.getElementById('task'+tempId).setAttribute('id', 'task'+(i+1));
-           //$("#task" + tempId).attr( "id", "task"+ (i+1));
+        }
 
-            tasks[i].tId = i+1;
-         }
-         saveTaskList(tasks);
-        
+        console.log("printing task list before reordering after deletion");
+
+        for (i = 0; i < tasks.length; i++) {
+            printTask(tasks[i]);
+        }
+
+        //if elements in array reorder them 
+        for (i = 0; i < tasks.length; i++) {
+            var tempId = tasks[i].tId;
+            console.log("inside for loop : task id " + tasks[i].tId);
+            console.log("changing id: " + tasks[i].tId + " to : " + (i + 1));
+            var strT = 'task' + tempId;
+            var taskTempId = document.getElementById(strT);
+            console.log("tasktempid: " + taskTempId);
+            //document.getElementById('task' + tempId).setAttribute('id', 'task' + (i + 1));
+            var strE = 'edit-' + tempId;
+            var editB = document.getElementById(strE);
+            console.log("edit b"+ editB.value);
+            //document.getElementById('edit-' + tempId).setAttribute('id', 'task' + (i + 1));
+            var strD = 'del-' + tempId;
+            var delB = document.getElementById(strE);
+            console.log("del b "+ delB.value);
+            //document.getElementById('del-' + tempId).setAttribute('id', 'task' + (i + 1));
+
+
+            // $('#task' + tempId).attr( "id", "task"+ (i + 1));
+            //  $('#edit-' + tempId).attr( 'id', 'edit-' + (i + 1));
+            //$('#del-' + tempId).attr( 'id', 'del-' + (i + 1));
+            //tasks[i].tId = i+1;
+        }
+        console.log("printing task list after reordering after deletion");
+        for (i = 0; i < tasks.length; i++) {
+            printTask(tasks[i]);
+        }
+
+        saveTaskList(tasks);
+
+
+
+
     }
 
 
@@ -477,9 +507,9 @@ var popup = function() {
         });
     }
 
-     function Init() {
-       loadData();
-       //clearStorage();
+    function Init() {
+    loadData();
+    //clearStorage();
 
     }
     return Init();
