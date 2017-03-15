@@ -161,19 +161,25 @@ var popup = function() {
     //adds task to index page
     function addTaskToHTML(task) {
         $('#hiddenTaskList').addClass('hidden');
-        $('#taskList').append("<tr id='task" + task.tId + "'>" +
+        $('#taskList').append("<tr t-id='" + task.tId + "'>" +
             "<td>" + task.tId + "</td>" +
             "<td><a href='#'>" + task.tName + "</a></td>" +
             "<td>" + task.tDueDate + "</td>" +
             "<td>" + task.tPriority + "</td>" +
             "<td>" +
-            "<a href='#' id='edit-" + task.tId + "' class='edit'>Edit </a>" +
-            "<a href='#' id='del-" + task.tId + "' class='del'>Delete</a>" +
+            "<a href='#'  class='edit'>Edit </a>" +
+            "<a href='#'  class='del'>Delete</a>" +
             "</td>" +
             "</tr>");
 
 
-        bindEventsToEditDel(task.tId);
+        //  bindEventsToEditDel(task.tId);
+        $('.edit').off("click");
+        $('.edit').on("click", editTask);
+
+        //bind events to delete button
+        $('.del').off("click");
+        $('.del').on("click", deleteTask);
 
         //reset form after appending task to list
         resetFormFields();
@@ -183,148 +189,57 @@ var popup = function() {
 
     }
 
-    function bindEventsToEditDel(id) {
-        var editBtn = document.getElementById("edit-" + id);
-        editBtn.addEventListener("click", function() {
-            showEditForm(id)
-        });
 
-        var delBtn = document.getElementById("del-" + id);
-        delBtn.addEventListener("click", function() {
-            bootbox.confirm({
-                message: "Delete Task ?",
-                buttons: {
-                    confirm: {
-                        label: 'Yes',
-                        className: 'btn-danger'
-                    },
-                    cancel: {
-                        label: 'No',
-                        className: 'btn-success'
-                    }
+    //deletes a task from table and array 
+    function  deleteTask(e) {
+        e.preventDefault();
+        var _this = this;
+
+        bootbox.confirm({
+            message: "Delete Task ?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-danger'
                 },
-                callback: function(result) {
-                    if (result)
-                        deleteTask(id);
-                    else console.log("dont delete task"); //debugging 
+                cancel: {
+                    label: 'No',
+                    className: 'btn-success'
                 }
-            });
+            },
+            callback: function(result) {
+                if (result) {
+                    curId = $(_this).parents('tr').attr('t-id');
+                    console.log('in del temp: id : ' + curId);
+                    $(_this).parents('tr').remove();
+                    for (i = 0; i < tasks.length; i++) {
+                        if (tasks[i].tId == curId) {
+                            tasks.splice(i, 1);
+                            break;
+                        }
 
+                    }
+                    saveTaskList(tasks);
+
+                    if (tasks.length == 0) {
+                        id = 0;
+                        $('#hiddenTaskList').removeClass('hidden');
+                        saveTaskList(tasks);
+                        return;
+                    }
+                } else console.log("dont delete task"); //debugging 
+            }
         });
-
     }
 
+
+
+
     //show edit form
-    function showEditForm(id) {
+    function editTask(id) {
         console.log("Calling showEditForm task Id =" + id);
 
     }
-
-   /* function tempDel(e)
-    {
-        e.preventDefault();
-        var _this = this;
-        curId = $(_this).parents('tr').attr('t-id');
-        $(_this).parents('tr').remove();
-    }*/
-
-    //delete task and updates id (maybe)
-    function deleteTask(id) {
-        console.log("calling del task id=" + id);
-        var task = getTaskFromList(id);
-        console.log("deleting task=" + JSON.stringify(task));
-        //deleteTaskfromList(task); //delete task from array
-        console.log("id to delete " + task["tId"]);
-        deleteTaskfromHTML(task["tId"]); //delete task from HTML page
-        //updateStorage(); //
-
-    }
-
-    function deleteTaskfromHTML(taskId) {
-        console.log("removing task from table");
-        var parent = document.getElementById("taskList");
-        var child = document.getElementById("task" + taskId);
-        var tempId = "#task" + taskId;
-        console.log("Removing task from html: id  " + taskId)
-        $(tempId).remove();
-        // console.log("deleting task " +tasks[i] + " from list");
-        deleteandReorderTasks(taskId);
-
-
-    }
-
-    //Gets a task from list with a given id
-    function getTaskFromList(id) {
-
-        var tempTask;
-        for (i = 0; i < tasks.length; i++) {
-            if (tasks[i].tId == id) {
-                tempTask = tasks[i];
-                console.log(JSON.stringify(tempTask));
-                return tempTask;
-
-            }
-        }
-
-    }
-
-
-    // Fix id in for loop
-    function deleteandReorderTasks(index) {
-        console.log("deleting and reordering")
-        tasks.splice((index - 1), 1);
-        id = tasks.length;
-
-        if (tasks.length == 0) {
-            id = 0;
-            $('#hiddenTaskList').removeClass('hidden');
-            saveTaskList(tasks);
-            return;
-        }
-
-        console.log("printing task list before reordering after deletion");
-
-        for (i = 0; i < tasks.length; i++) {
-            printTask(tasks[i]);
-        }
-
-        //if elements in array reorder them 
-        for (i = 0; i < tasks.length; i++) {
-            var tempId = tasks[i].tId;
-            console.log("inside for loop : task id " + tasks[i].tId);
-            console.log("changing id: " + tasks[i].tId + " to : " + (i + 1));
-            var strT = 'task' + tempId;
-            var taskTempId = document.getElementById(strT);
-            console.log("tasktempid: " + taskTempId);
-            //document.getElementById('task' + tempId).setAttribute('id', 'task' + (i + 1));
-            var strE = 'edit-' + tempId;
-            var editB = document.getElementById(strE);
-            console.log("edit b"+ editB.value);
-            //document.getElementById('edit-' + tempId).setAttribute('id', 'task' + (i + 1));
-            var strD = 'del-' + tempId;
-            var delB = document.getElementById(strE);
-            console.log("del b "+ delB.value);
-            //document.getElementById('del-' + tempId).setAttribute('id', 'task' + (i + 1));
-
-
-            // $('#task' + tempId).attr( "id", "task"+ (i + 1));
-            //  $('#edit-' + tempId).attr( 'id', 'edit-' + (i + 1));
-            //$('#del-' + tempId).attr( 'id', 'del-' + (i + 1));
-            //tasks[i].tId = i+1;
-        }
-        console.log("printing task list after reordering after deletion");
-        for (i = 0; i < tasks.length; i++) {
-            printTask(tasks[i]);
-        }
-
-        saveTaskList(tasks);
-
-
-
-
-    }
-
-
 
 
     //adds task to array list 
@@ -346,7 +261,6 @@ var popup = function() {
         resetFormFields();
 
     }
-
 
 
 
@@ -508,8 +422,8 @@ var popup = function() {
     }
 
     function Init() {
-    loadData();
-    //clearStorage();
+        loadData();
+        //clearStorage();
 
     }
     return Init();
