@@ -226,9 +226,10 @@ var popup = function() {
     function deleteTask(id) {
         console.log("calling del task id=" + id);
         var task = getTaskFromList(id);
-        console.log("deleting task=" + task);
+        console.log("deleting task=" + JSON.stringify(task));
         //deleteTaskfromList(task); //delete task from array
-        deleteTaskfromHTML(task.tId); //delete task from HTML page
+        console.log("id to delete " + task["tId"]);
+        deleteTaskfromHTML(task["tId"]); //delete task from HTML page
         //updateStorage(); //
 
     }
@@ -239,6 +240,7 @@ var popup = function() {
         var parent = document.getElementById("taskList");
         var child = document.getElementById("task" + taskId);
         var tempId = "#task" + taskId;
+        console.log("Removing task from html: id  " + taskId)
         $(tempId).remove();
        // console.log("deleting task " +tasks[i] + " from list");
        deleteandReorderTasks(taskId);
@@ -256,31 +258,40 @@ var popup = function() {
             {
                 tempTask = tasks[i];
                 console.log(JSON.stringify(tempTask));
-
                 return tempTask;
                
-
             }
         }
         
     }
 
+
+    // Fix id in for loop
     function deleteandReorderTasks(index)
     {   
         console.log("deleting and reordering")
          tasks.splice((index-1), 1);
-         for( i = 0; i < tasks.length; i++)
-         {
-            var tempId = tasks[i].tId;
-            document.getElementById('task'+tempId).setAttribute('id', 'task'+(i+1));
-            tasks[i].tId = i+1;
-         }
-         saveTaskList(tasks);
-         if(tasks.length == 0)
+          if(tasks.length == 0)
          { 
             id = 0;
             $('#hiddenTaskList').removeClass('hidden');
+            saveTaskList(tasks);
+
+            return;
         }  
+        id = tasks.length;
+         
+         //if elements in array reorder them 
+         for( i = 0; i < tasks.length; i++)
+         {
+            var tempId = tasks[i].tId;
+        document.getElementById('task'+tempId).setAttribute('id', 'task'+(i+1));
+           //$("#task" + tempId).attr( "id", "task"+ (i+1));
+
+            tasks[i].tId = i+1;
+         }
+         saveTaskList(tasks);
+        
     }
 
 
@@ -288,12 +299,9 @@ var popup = function() {
 
     //adds task to array list 
     function addTaskToArray(task) {
-
-
         console.log("pushing task to array list");
         tasks.push(task);
         saveTaskList(tasks);
-
     }
 
     //toggle index page with task list
