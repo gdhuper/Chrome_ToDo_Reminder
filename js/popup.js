@@ -40,6 +40,19 @@ var popup = function() {
         saveButtton = index.getElementById('saveTask');
 
 
+    var view_task_name = index.getElementById("view-task-name"),
+        view_task_dueDate = index.getElementById("view-task-dueDate"),
+        view_task_url = index.getElementById("view-task-url"),
+        view_task_notes = index.getElementById("view-task-notes"),
+        view_priority = index.getElementById("view-priority"),
+        notifyCheckBox = index.getElementById("view_notifyCheckBox"),
+        notifyUrlCheckBox = index.getElementById("view_notifyUrlCheckBox"),
+        edit_Task_btn = index.getElementById("edit-task"),
+        cancel_view = index.getElementById("cancel-view");
+
+
+
+
     // creating task object (constructor)
     function createTaskObj(Id, name, dueDate, url, notes, priority, notify, notifyUrl) {
         console.log("creating task object");
@@ -163,7 +176,7 @@ var popup = function() {
         $('#hiddenTaskList').addClass('hidden');
         $('#taskList').append("<tr t-id='" + task.tId + "'>" +
             "<td>" + task.tId + "</td>" +
-            "<td><a href='#'>" + task.tName + "</a></td>" +
+            "<td><a href='#' class='view'>" + task.tName + "</a></td>" +
             "<td>" + task.tDueDate + "</td>" +
             "<td>" + task.tPriority + "</td>" +
             "<td>" +
@@ -172,6 +185,11 @@ var popup = function() {
             "</td>" +
             "</tr>");
 
+
+
+        //binding events to viewTask
+        $('.view').off("click");
+        $('.view').on("click", viewTask);
 
         //  bindEventsToEditDel(task.tId);
         $('.edit').off("click");
@@ -187,6 +205,71 @@ var popup = function() {
         //debugging message
         console.log("printing checked " + task.tNotify);
 
+    }
+
+    function viewTask(e)
+    {
+        console.log("in viewTask");
+        e.preventDefault();
+        var _this = this;
+        curId = $(_this).parents('tr').attr('t-id');
+        console.log("viewing task id: " + curId);
+        var tempTask;
+        for(i = 0;i < tasks.length; i++)
+        {
+            if(tasks[i].tId == curId)
+            {
+                tempTask = tasks[i];
+            }
+        }
+
+        if(tempTask)
+        {  
+        view_task_name.innerText = tempTask.tName;
+        view_task_dueDate.innerText = tempTask.tDueDate;
+        view_task_url.innerText = tempTask.tUrl;
+        view_task_notes.innerText = tempTask.tNotes;
+        view_priority = tempTask.tPriority;
+        if(tempTask.tNotify == true)
+        {
+            console.log("in true");
+         $("#view_notifyCheckBox").prop("checked", true);
+
+        
+        }
+        if(tempTask.tNotifyUrl == true)
+        {
+        $("#view_notifyUrlCheckBox").prop("checked", true);
+        }
+    
+        edit_Task_btn.addEventListener('click', function()
+            {
+                editTask(tempTask.tId);
+            });
+        cancel_view.addEventListener('click', cancelViewTask);
+           //display task 
+            viewTaskDetails();
+        }
+
+    }
+
+    function cancelViewTask()
+    {
+        view_task_name.innerText = "";
+        view_task_dueDate.innerText = "";
+        view_task_url.innerText = "";
+        view_task_notes.innerText = "";
+        view_priority = "";
+        $('#task-view').addClass('hidden');
+        $('#frontPanel').removeClass('hidden');
+        $('#topTitle').removeClass('hidden');
+    }
+
+    function viewTaskDetails()
+    {
+        $('#task-view').removeClass('hidden');
+        $('#frontPanel').addClass('hidden');
+        $('#topTitle').addClass('hidden');
     }
 
 
@@ -217,7 +300,6 @@ var popup = function() {
                             tasks.splice(i, 1);
                             break;
                         }
-
                     }
                     saveTaskList(tasks);
 
@@ -322,9 +404,7 @@ var popup = function() {
                 addTaskToHTML(taskobj);
                 addTaskToArray(taskobj);
                 displayTasks();
-
                 id += 1;
-
 
             }
 
