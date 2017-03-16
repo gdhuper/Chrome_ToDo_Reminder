@@ -229,7 +229,7 @@ var popup = function() {
         view_task_dueDate.innerText = tempTask.tDueDate;
         view_task_url.innerText = tempTask.tUrl;
         view_task_notes.innerText = tempTask.tNotes;
-        view_priority = tempTask.tPriority;
+        view_priority.innerText = tempTask.tPriority;
         if(tempTask.tNotify == true)
         {
             console.log("in true");
