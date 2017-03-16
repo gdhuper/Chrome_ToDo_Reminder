@@ -162,25 +162,52 @@ var popup = function() {
         var this_row = rows[tempIDforEdit + 1];
         console.log("updateing row "+ this_row);
         console.log("tempIDforEdit" + tempIDforEdit + " tempTaskToUpdate = " + tempIdToUpdate);
-        this_row.outerHTML = "<tr t-id='" + tempIdToUpdate + "'>" +
+        this_row.innerHTML = "<tr t-id='" + tempIdToUpdate + "'>" +
             "<td>" + tempIdToUpdate + "</td>" +
             "<td><a href='#' class='view'>" + name + "</a></td>" +
             "<td>" + dueDate + "</td>" +
             "<td>" + pty + "</td>" +
             "<td>" +
-            "<a href='#'  class='edit'>Edit </a>" +
-            "<a href='#'  class='del'>Delete</a>" +
+            "<a href='#' class='edit'>Edit </a>" +
+            "<a href='#' class='del'>Delete</a>" +
             "</td>" +
             "</tr>";
 
         tasks[tempIDforEdit] = tempTaskToUpdate;
-        saveTaskList(tasks);
-        resetFormFields();
-
-        displayTasks();
         editMode = false;
         tempIdToUpdate = 0;
         tempIDforEdit = 0;
+        saveTaskList(tasks);
+
+
+        //binding events to viewTask
+        $('.view').off("click");
+        $('.view').on("click", viewTask);
+
+        //  bindEventsToEditDel(task.tId);
+        $('.edit').off("click");
+        $('.edit').on("click", function(){
+        var _this = this;
+        curId = $(_this).parents('tr').attr('t-id');
+        for(i = 0; i < tasks.length; i++)
+        {
+            if(tasks[i].tId == curId)
+            {
+                editTask(curId, curId);
+                break;
+            }
+        }
+        });
+
+        //bind events to delete button
+        $('.del').off("click");
+        $('.del').on("click", deleteTask);
+
+        //reset form after appending task to list
+        resetFormFields();
+
+        displayTasks();
+        
 
 
 
@@ -281,9 +308,9 @@ var popup = function() {
 
 
     //show edit form
-    function editTask(id, curId) {
-        console.log("Calling showEditForm task Id =" + id);
-        var task = getTask(id);
+    function editTask(tempid, curId) {
+        console.log("Calling showEditForm task Id =" + tempid);
+        var task = getTask(tempid);
         editMode = true;
         
         //set the form field values
@@ -303,7 +330,7 @@ var popup = function() {
         tempIdToUpdate = curId;
         for(i = 0; i < tasks.length; i++)
         {
-            if(tasks[i].tId == id)
+            if(tasks[i].tId == tempid)
             {
                 tempIDforEdit = i;
             }
@@ -619,7 +646,7 @@ var popup = function() {
     }
 
     function Init() {
-       loadData();
+      loadData();
        //clearStorage();
 
     }
