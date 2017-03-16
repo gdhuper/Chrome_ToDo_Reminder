@@ -3,6 +3,7 @@ var popup = function() {
 
     //defining global variables
     var tId = 0,
+        editMode = false,
         tName = null,
         tDueDate = null,
         tUrl = null,
@@ -18,6 +19,8 @@ var popup = function() {
     //var pQueue = ds.priorityQueue();
 
     var id = 0;
+    var tempIDforEdit = 0;
+    var tempIdToUpdate = 0;
     /*Index page variables*/
     var index = document,
         tasks = [],
@@ -87,7 +90,7 @@ var popup = function() {
     //creates and saves a task in the storage 
     function saveTask() {
         console.log("calling save task");
-
+        if(!editMode){
         id += 1;
         var name = taskName.value;
         var dueDate = inputDueTime.value;
@@ -126,9 +129,67 @@ var popup = function() {
 
             console.log("printing task details :" + str);
         }
+        }
+        if(editMode)
+        {
+        console.log("in edit mode");
+            //save the edited task 
+        var name = taskName.value;
+        var dueDate = inputDueTime.value;
+        var UrlToOpen = url.value;
+        var notes = taskNotes.value;
+        var pty;
+        if (p == null) {
+            pty = 'None';
+        } else pty = p;
+        var nfy = (function() {
+            if ($('#notifyCheckBox').is(':checked')) {
+                return true;
+            } else {
+                return false;
+            }
+        })();
+        var nfyUrl = (function() {
+            if ($('#notifyUrlCheckBox').is(':checked')) {
+                return true;
+            } else {
+                return false;
+            }
+        })();
+
+        var tempTaskToUpdate = new createTaskObj(tempIdToUpdate, name, dueDate, UrlToOpen, notes, pty, nfy, nfyUrl);
+        var rows = $('tr', taskList);
+        var this_row = rows[tempIDforEdit + 1];
+        console.log("updateing row "+ this_row);
+        console.log("tempIDforEdit" + tempIDforEdit + " tempTaskToUpdate = " + tempIdToUpdate);
+        this_row.outerHTML = "<tr t-id='" + tempIdToUpdate + "'>" +
+            "<td>" + tempIdToUpdate + "</td>" +
+            "<td><a href='#' class='view'>" + name + "</a></td>" +
+            "<td>" + dueDate + "</td>" +
+            "<td>" + pty + "</td>" +
+            "<td>" +
+            "<a href='#'  class='edit'>Edit </a>" +
+            "<a href='#'  class='del'>Delete</a>" +
+            "</td>" +
+            "</tr>";
+
+        tasks[tempIDforEdit] = tempTaskToUpdate;
+        saveTaskList(tasks);
+        resetFormFields();
+
+        displayTasks();
+        editMode = false;
+        tempIdToUpdate = 0;
+        tempIDforEdit = 0;
+
+
+
+
+        }
 
     }
 
+   
 
     function validateTask(task) {
         if (task == null) {
@@ -193,7 +254,18 @@ var popup = function() {
 
         //  bindEventsToEditDel(task.tId);
         $('.edit').off("click");
-        $('.edit').on("click", editTask);
+        $('.edit').on("click", function(){
+        var _this = this;
+        curId = $(_this).parents('tr').attr('t-id');
+        for(i = 0; i < tasks.length; i++)
+        {
+            if(tasks[i].tId == curId)
+            {
+                editTask(curId, curId);
+                break;
+            }
+        }
+        });
 
         //bind events to delete button
         $('.del').off("click");
@@ -206,6 +278,45 @@ var popup = function() {
         console.log("printing checked " + task.tNotify);
 
     }
+
+
+    //show edit form
+    function editTask(id, curId) {
+        console.log("Calling showEditForm task Id =" + id);
+        var task = getTask(id);
+        editMode = true;
+        
+        //set the form field values
+        taskName.value = task.tName;
+        inputDueTime.value = task.tDueDate;
+        url.value = task.tUrl;
+        taskNotes.value = task.tNotes;
+        priority.value = task.tPriority;
+        if(task.tNotify == true)
+        {
+         $("#notifyCheckBox").prop("checked", true);
+        }
+        if(task.tNotifyUrl == true)
+        {
+        $("#notifyUrlCheckBox").prop("checked", true);
+        }
+        tempIdToUpdate = curId;
+        for(i = 0; i < tasks.length; i++)
+        {
+            if(tasks[i].tId == id)
+            {
+                tempIDforEdit = i;
+            }
+        }
+
+        createNewTask(); //display edit form
+        $('#task-view').addClass('hidden'); //hide view task page
+
+
+       
+    }
+
+
 
     function viewTask(e)
     {
@@ -244,7 +355,8 @@ var popup = function() {
     
         edit_Task_btn.addEventListener('click', function()
             {
-                editTask(tempTask.tId);
+                console.log("calling editform with task id =" +tempTask.tId +" and cur id " + curId);
+                editTask(tempTask.tId, curId);
             });
         cancel_view.addEventListener('click', cancelViewTask);
            //display task 
@@ -317,10 +429,17 @@ var popup = function() {
 
 
 
-    //show edit form
-    function editTask(id) {
-        console.log("Calling showEditForm task Id =" + id);
 
+    //helper method to get task from list with a given id
+    function getTask(id)
+    {
+        for(i = 0; i < tasks.length; i++)
+        {
+            if(tasks[i].tId == id)
+            {
+                return tasks[i];
+            }
+        }
     }
 
 
@@ -450,7 +569,6 @@ var popup = function() {
 
     //toggle create task form 
     function createNewTask() {
-        console.log("calling create task");
         $('#frontPanel').addClass('hidden');
         $('#topTitle').addClass('hidden');
         $('#addTask').removeClass('hidden');
@@ -460,7 +578,6 @@ var popup = function() {
 
     //calling datetimepicker api
     function popCal() {
-        console.log("picking time");
         $('#dueDateTime').datetimepicker({
             format: "MM/DD/'YY  hh:mm A"
         });
@@ -502,8 +619,8 @@ var popup = function() {
     }
 
     function Init() {
-        loadData();
-        //clearStorage();
+       loadData();
+       //clearStorage();
 
     }
     return Init();
