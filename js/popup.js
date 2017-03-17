@@ -163,7 +163,6 @@ var popup = function() {
         console.log("updateing row "+ this_row);
         console.log("tempIDforEdit" + tempIDforEdit + " tempTaskToUpdate = " + tempIdToUpdate);
         this_row.innerHTML = "<tr t-id='" + tempIdToUpdate + "'>" +
-            "<td>" + tempIdToUpdate + "</td>" +
             "<td><a href='#' class='view'>" + name + "</a></td>" +
             "<td>" + dueDate + "</td>" +
             "<td>" + pty + "</td>" +
@@ -263,7 +262,6 @@ var popup = function() {
     function addTaskToHTML(task) {
         $('#hiddenTaskList').addClass('hidden');
         $('#taskList').append("<tr t-id='" + task.tId + "'>" +
-            "<td>" + task.tId + "</td>" +
             "<td><a href='#' class='view'>" + task.tName + "</a></td>" +
             "<td>" + task.tDueDate + "</td>" +
             "<td>" + task.tPriority + "</td>" +
@@ -606,7 +604,11 @@ var popup = function() {
     //calling datetimepicker api
     function popCal() {
         $('#dueDateTime').datetimepicker({
-            format: "MM/DD/'YY  hh:mm A"
+              format: "MM/DD/YYYY  hh:mm A",
+              showClose: true,
+              keepOpen: false,
+              keepInvalid: false
+
         });
     }
 
