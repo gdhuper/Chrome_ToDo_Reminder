@@ -3,7 +3,7 @@
 
   "name": "To-do Reminder",
   "description": "This extension allows to set reminders and open specified URL's at scheduled time ",
-  "version": "1.0",
+  "version": "1.2",
 
   "browser_action": {
     "default_icon": "alarm.png",
