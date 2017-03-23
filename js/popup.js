@@ -91,8 +91,8 @@ var popup = function() {
     //creates and saves a task in the storage 
     function saveTask() {
         var done = false;
-     
-            console.log("calling save task");
+
+        console.log("calling save task");
         var name = taskName.value;
         var dueDate = inputDueTime.value;
         var UrlToOpen = url.value;
@@ -120,58 +120,51 @@ var popup = function() {
             id += 1;
 
             if (name != "") {
-                if (validateURL(UrlToOpen)) {
-                    if (validateTime(dueDate) == true) {
+                if (validateTime(dueDate) == true) {
 
-                        var task = new createTaskObj(id, name, dueDate, UrlToOpen, notes, pty, nfy, nfyUrl);
-
-
-                        printTask(task);
-                        validateTask(task);
-                        addTaskToHTML(task);
-                        addTaskToArray(task);
-                        displayTasks();
-
-                        //printing contents of task objects
-                        var str = JSON.stringify(task);
-                        done = true;
-                        $('#error-info').text('');
-
-                        console.log("printing task details :" + str);
-                    } else {
-
-                        console.log("invalid due time create task");
-                        console.log("invalid due time edit task");
-
-    $('#taskForm').on('invalid.bs.validator', function (e) {
-        
-      });
-                        if (time != "") {
-                            var curDate = new Date();
-                            var due_time = new Date(time);
-                            if (due_time == "Invalid Date") {
-                                $('#error-info').text('Invalid Date! Please enter a valid due date');
-                            } else if (due_time < curDate) {
-                                console.log("check valid time : curtime" + curtime);
-                                $('#error-info').text('Due date should be greater than current date');
+                    var task = new createTaskObj(id, name, dueDate, UrlToOpen, notes, pty, nfy, nfyUrl);
 
 
-                            }
+                    printTask(task);
+                    validateTask(task);
+                    addTaskToHTML(task);
+                    addTaskToArray(task);
+                    displayTasks();
 
-                        } else {
-                            $('#error-info').text('Due date cannot be empty!');
+                    //printing contents of task objects
+                    var str = JSON.stringify(task);
+                    done = true;
+                    $('#error-info').text('');
 
+                    console.log("printing task details :" + str);
+                } else {
+
+                    console.log("invalid due time create task");
+                    console.log("invalid due time edit task");
+
+                    $('#taskForm').on('invalid.bs.validator', function(e) {
+
+                    });
+                    if (time != "") {
+                        var curDate = new Date();
+                        var due_time = new Date(time);
+                        if (due_time == "Invalid Date") {
+                            $('#error-info').text('Invalid Date! Please enter a valid due date');
+                        } else if (due_time < curDate) {
+                            console.log("check valid time : curtime" + curtime);
+                            $('#error-info').text('Due date should be greater than current date');
 
 
                         }
+
+                    } else {
+                        $('#error-info').text('Due date cannot be empty!');
+
+
+
                     }
-
-                } else {
-                    $('#error-info').text('Invalid URL!');
-
-
-
                 }
+
 
             } else {
                 $('#error-info').text('Task name cannot be empty');
@@ -185,87 +178,85 @@ var popup = function() {
             console.log("in edit mode");
             //save the edited task 
             if (name != "") {
-                if (validateURL(UrlToOpen)) {
-                    if (validateTime(dueDate) == true) {
-                        var tempTaskToUpdate = new createTaskObj(tempIdToUpdate, name, dueDate, UrlToOpen, notes, pty, nfy, nfyUrl);
-                        var rows = $('tr', taskList);
-                        var this_row = rows[tempIDforEdit + 1];
-                        console.log("updateing row " + this_row);
-                        console.log("tempIDforEdit" + tempIDforEdit + " tempTaskToUpdate = " + tempIdToUpdate);
-                        this_row.innerHTML = "<tr t-id='" + tempIdToUpdate + "'>" +
-                            "<td><a href='#' class='view'>" + name + "</a></td>" +
-                            "<td>" + dueDate + "</td>" +
-                            "<td>" + pty + "</td>" +
-                            "<td>" +
-                            "<a href='#' class='edit'>Edit </a>" +
-                            "<a href='#' class='del'>Delete</a>" +
-                            "</td>" +
-                            "</tr>";
 
-                        tasks[tempIDforEdit] = tempTaskToUpdate;
-                        editMode = false;
-                        tempIdToUpdate = 0;
-                        tempIDforEdit = 0;
-                        saveTaskList(tasks);
+                if (validateTime(dueDate) == true) {
+                    var tempTaskToUpdate = new createTaskObj(tempIdToUpdate, name, dueDate, UrlToOpen, notes, pty, nfy, nfyUrl);
+                    var rows = $('tr', taskList);
+                    var this_row = rows[tempIDforEdit + 1];
+                    console.log("updateing row " + this_row);
+                    console.log("tempIDforEdit" + tempIDforEdit + " tempTaskToUpdate = " + tempIdToUpdate);
+                    this_row.innerHTML = "<tr t-id='" + tempIdToUpdate + "'>" +
+                        "<td><a href='#' class='view'>" + name + "</a></td>" +
+                        "<td>" + dueDate + "</td>" +
+                        "<td>" + pty + "</td>" +
+                        "<td>" +
+                        "<a href='#' class='edit'>Edit </a>" +
+                        "<a href='#' class='del'>Delete</a>" +
+                        "</td>" +
+                        "</tr>";
+
+                    tasks[tempIDforEdit] = tempTaskToUpdate;
+                    editMode = false;
+                    tempIdToUpdate = 0;
+                    tempIDforEdit = 0;
+                    saveTaskList(tasks);
 
 
-                        //binding events to viewTask
-                        $('.view').off("click");
-                        $('.view').on("click", viewTask);
+                    //binding events to viewTask
+                    $('.view').off("click");
+                    $('.view').on("click", viewTask);
 
-                        //  bindEventsToEditDel(task.tId);
-                        $('.edit').off("click");
-                        $('.edit').on("click", function() {
-                            var _this = this;
-                            curId = $(_this).parents('tr').attr('t-id');
-                            for (i = 0; i < tasks.length; i++) {
-                                if (tasks[i].tId == curId) {
-                                    editTask(curId, curId);
-                                    break;
-                                }
+                    //  bindEventsToEditDel(task.tId);
+                    $('.edit').off("click");
+                    $('.edit').on("click", function() {
+                        var _this = this;
+                        curId = $(_this).parents('tr').attr('t-id');
+                        for (i = 0; i < tasks.length; i++) {
+                            if (tasks[i].tId == curId) {
+                                editTask(curId, curId);
+                                break;
                             }
-                        });
+                        }
+                    });
 
-                        //bind events to delete button
-                        $('.del').off("click");
-                        $('.del').on("click", deleteTask);
+                    //bind events to delete button
+                    $('.del').off("click");
+                    $('.del').on("click", deleteTask);
 
-                        //reset form after appending task to list
-                        resetFormFields();
+                    //reset form after appending task to list
+                    resetFormFields();
 
-                        displayTasks();
-                        done = true;
-                        $('#error-info').text('');
+                    displayTasks();
+                    done = true;
+                    $('#error-info').text('');
 
-                    } else {
-                        console.log("invalid due time edit task");
-                        if (time != "") {
-                            var curDate = new Date();
-                            var due_time = new Date(time);
-                            if (due_time == "Invalid Date") {
-                                $('#error-info').text('Invalid Date! Please enter a valid due date');
-                            } else if (due_time < curDate) {
-                                console.log("check valid time : curtime" + curtime);
-                                $('#error-info').text('Due date should be greater than current date');
-
-                            }
-                        } else {
-                            $('#error-info').text('Due date cannot be empty!');
+                } else {
+                    console.log("invalid due time edit task");
+                    if (time != "") {
+                        var curDate = new Date();
+                        var due_time = new Date(time);
+                        if (due_time == "Invalid Date") {
+                            $('#error-info').text('Invalid Date! Please enter a valid due date');
+                        } else if (due_time < curDate) {
+                            console.log("check valid time : curtime" + curtime);
+                            $('#error-info').text('Due date should be greater than current date');
 
                         }
+                    } else {
+                        $('#error-info').text('Due date cannot be empty!');
 
                     }
 
-                } else {
-                    $('#error-info').text('Invalid URL!');
                 }
+
+
             } else {
                 $('#error-info').text('Task name cannot be empty');
 
             }
 
         }
-    
+
 
     }
 
