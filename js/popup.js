@@ -1,6 +1,5 @@
 var popup = function() {
     //  "use strict"
-
     //defining global variables
     var tId = 0,
         editMode = false,
